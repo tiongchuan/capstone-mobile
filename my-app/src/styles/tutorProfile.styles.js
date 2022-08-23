@@ -8,7 +8,6 @@ module.exports = StyleSheet.create ({
     alignItems: 'center',
     backgroundColor: '#D9D9D9',
     padding: 20
-    //justifyContent: 'space-evenly'
   },
   img: {
     height: height / 2.6,
@@ -25,17 +24,4 @@ module.exports = StyleSheet.create ({
     fontWeight: 'bold',
     margin: 2
   },
-  btn: {
-    height: 43,
-    width: 150,
-    backgroundColor: '#9D2427',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 20,
-    borderRadius: 20,
-    marginTop: height * 0.01
-  },
-  btnText: {
-    color: '#FFFFFF'
-  }
 })

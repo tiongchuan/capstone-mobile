@@ -1,7 +1,8 @@
-import React from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import profileImg from '../assets/profileImg.jpg'
-import styles from '../styles/tutorProfile.styles'
+import React from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import profileImg from '../assets/profileImg.jpg';
+import styles from '../styles/tutorProfile.styles.js';
+import { CustomButton } from '../components/CustomButton.js';
 
 export const TutorProfileScreen = ({ navigation, route }) => {
 
@@ -17,13 +18,10 @@ export const TutorProfileScreen = ({ navigation, route }) => {
         <Text style = { styles.text }>E-mail: will@gamil.com </Text>
         <Text style = { styles.text }>Mobile number: 94582165 </Text>
       </View>
-      
-      <TouchableOpacity 
-        style = { styles.btn }
+      <CustomButton 
         onPress = {() => navigation.navigate( 'Request Tutor', {hourlyrate: route.params.item.hourlyRate} )}
-      >
-        <Text style = { styles.btnText }>Request</Text>
-      </TouchableOpacity>
+        text = "Request"
+      />
     </View>
   )
 }

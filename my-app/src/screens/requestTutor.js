@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-} from 'react-native'
-import dayjs from 'dayjs'
-import { Calendar } from 'react-native-calendars'
-import styles from '../styles/requestTutor.styles'
-import SelectDropdown from 'react-native-select-dropdown'
+} from 'react-native';
+import dayjs from 'dayjs';
+import { Calendar } from 'react-native-calendars';
+import styles from '../styles/requestTutor.styles.js';
+import SelectDropdown from 'react-native-select-dropdown';
+import { CustomButton } from '../components/CustomButton.js';
 
 export const RequestTutorScreen = ({ navigation, route }) => {
 
@@ -110,17 +111,11 @@ export const RequestTutorScreen = ({ navigation, route }) => {
               numberOfLines = { 5 }
               onChangeText = {( text ) => { text }}/>
             </View>
-            {/* <View style = { styles.populate}>
-              { populate.map ( item => (
-                <Text >{ item.any }</Text>
-              ))}
-            </View> */}
             <View style = { styles.btnContainer }>
-              <TouchableOpacity
-                style = { styles.btn }
-                onPress = { pressConfirm }>
-                <Text style = { styles.btnText }>Confirm</Text>
-              </TouchableOpacity>
+              <CustomButton 
+                onPress = { pressConfirm }
+                text = "Confirm"
+              />
             </View>
           </View>
         </TouchableWithoutFeedback>
