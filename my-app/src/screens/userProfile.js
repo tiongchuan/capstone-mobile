@@ -6,6 +6,7 @@ import styles from '../styles/userProfile.styles'
 export const UserProfileScreen = ({ navigation, route }) => {
 
   return (
+
     <View style = { styles.container }>
       <Image style = { styles.img } source = { profileImg }/>
       <View style = { styles.texts }> 

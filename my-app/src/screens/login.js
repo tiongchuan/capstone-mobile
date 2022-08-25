@@ -21,36 +21,36 @@ export const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
 
-      await API
-        .post ('/login', {
-          email: email, 
-          password: password,
-        })
-        .then (res => {
+      // await API
+      //   .post ('/login', {
+      //     email: email, 
+      //     password: password,
+      //   })
+      //   .then (res => {
 
-          if (res.data.status == "200") {
-            navigation.navigate('Tabs', {screen:'Welcome',params:{email:email}});
-            // console.log(res.message);
-          }
-        })
-        .catch (e => {
+      //     if (res.data.status == "200") {
+            navigation.navigate('Tabs', {screen:'My profile',params:{email:email}});
+        //     // console.log(res.message);
+        //   }
+        // })
+        // .catch (e => {
 
-          // Check if email or password is empty
-          if (e.response.status == "500") {
-            const message = JSON.stringify(e.response.data.message);
-            alert(`${message}`);
-            // console.log(e.response.status);
-            // console.log(e.response.data);
-          }
+        //   // Check if email or password is empty
+        //   if (e.response.status == "500") {
+        //     const message = JSON.stringify(e.response.data.message);
+        //     alert(`${message}`);
+        //     // console.log(e.response.status);
+        //     // console.log(e.response.data);
+        //   }
 
-          // Check if email exist in database
-          if (e.response.status == "401") {
-            const message = JSON.stringify(e.response.data.message);
-            alert(`${message}`);
-            // console.log(e.response.status);
-            // console.log(e.response.data);
-          }
-        });
+        //   // Check if email exist in database
+        //   if (e.response.status == "401") {
+        //     const message = JSON.stringify(e.response.data.message);
+        //     alert(`${message}`);
+        //     // console.log(e.response.status);
+        //     // console.log(e.response.data);
+        //   }
+        // });
   };
 
   const handleForgetPassword = () => {

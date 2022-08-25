@@ -11,24 +11,37 @@ import { TutorProfileScreen } from './src/screens/tutorProfile';
 import { RequestTutorScreen } from './src/screens/requestTutor';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { UserProfileScreen } from './src/screens/userProfile'
 
 // import Tabs from './src/navigation/tabs';
 
 function Tabs() {
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false }}>
+    <Tab.Navigator initialRouteName='Tutors' screenOptions={{ headerShown: false }}>
 
       <Tab.Screen
-            name="Welcome"
-            component={WelcomeScreen}
-            options={{
-                tabBarLabel: 'Profile',
-                tabBarActiveBackgroundColor: "#D9D9D9",
-                tabBarIcon: ({ size }) => (
-                    <MaterialCommunityIcons name="account" color="#9D2427" size={size} />)
-            }}
-        />
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarActiveBackgroundColor: "#D9D9D9",
+          tabBarIcon: ({ size }) => (
+            <MaterialCommunityIcons name="home" color="#9D2427" size={size} />)
+        }}
+      />
+
+      <Tab.Screen
+        name="My profile"
+        component={UserProfileScreen}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarActiveBackgroundColor: "#D9D9D9",
+          tabBarIcon: ({ size }) => (
+            <MaterialCommunityIcons name="account" color="#9D2427" size={size} />)
+        }}
+      />
+
       <Tab.Screen
         name="Tutors"
         component={TutorsListingScreen}
@@ -69,7 +82,7 @@ export default function App() {
         <Stack.Screen name='Login' component={LoginScreen} />
         <Stack.Screen name='Tabs' component={Tabs} />
         <Stack.Screen name='Welcome' component={WelcomeScreen} />
-        {/* <Stack.Screen name = 'My profile' component = { UserProfileScreen }/> */}
+        <Stack.Screen name='My profile' component={UserProfileScreen} />
         {/* <Stack.Screen name = 'Tutors' component = { TutorsListingScreen }/> */}
         {/* <Stack.Screen name = 'My Activity' component = { MyActivityScreen }/> */}
         <Stack.Screen name='Tutor profile' component={TutorProfileScreen} />
