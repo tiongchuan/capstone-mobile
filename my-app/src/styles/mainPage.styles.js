@@ -18,16 +18,4 @@ module.exports = StyleSheet.create ({
   btnContainer: {
     marginTop: height * 0.1
   },
-  btn: {
-    height: height * 0.06,
-    width: width * 0.35,
-    backgroundColor: '#9D2427',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 10,
-    borderRadius: 20
-  },
-  btnText: {
-    color: 'white',
-  }
 })
