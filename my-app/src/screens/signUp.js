@@ -3,19 +3,17 @@ import {
   Text, 
   Image,
   Keyboard,
-  TextInput,
   ScrollView,
-  TouchableOpacity,
   KeyboardAvoidingView, 
   TouchableWithoutFeedback,
   } from 'react-native';
+  import API from '../config/api.js';
 import React, { useState } from 'react';
 import { Switch } from 'react-native-switch';
-import signUpPic from '../assets/signUpPic.jpg';
 import styles from '../styles/signUp.styles.js';
-import API from '../config/api.js';
-import { CustomTextInput } from '../components/CustomTextInput.js';
+import signUpPic from '../assets/signUpPic.jpg';
 import { CustomButton } from '../components/CustomButton.js';
+import { CustomTextInput } from '../components/CustomTextInput.js';
 
 export const SignUpScreen = ({ navigation }) => {
   

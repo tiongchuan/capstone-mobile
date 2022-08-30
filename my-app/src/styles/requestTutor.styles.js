@@ -4,58 +4,77 @@ const { height, width } = Dimensions.get( 'window' )
 
 module.exports = StyleSheet.create ({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#D9D9D9'
-    //justifyContent: 'center',
+    flex: 1
   },
   innerContainer: {
     padding: 0,
-    height: height,
-    //alignItems: 'center'
+    height: height
+  },
+  calendarContainer: {
+    alignItems: 'center'
   },
   calendar: {
     width: width / 1.2,
-    marginTop: height * 0.04,
+    marginTop: height * 0.07,
     height: 370,
     borderRadius: 20,
-    //justifyContent: 'space-evenly',
-    shadowColor: "#000",
+    justifyContent: 'space-evenly',
+    shadowColor: "gray",
     shadowOffset: {
       width: 0,
-      height: 12,
+      height: 8,
     },
-    shadowOpacity: 0.58,
+    shadowOpacity: 0.48,
     shadowRadius: 16.00,
-    elevation: 24
+    elevation: 10
   },
   textsContainer: {
-    alignItems: 'center',
-    marginTop: 10,
+    marginHorizontal: width * 0.07
   },
-  texts: {
-    alignItems: 'flex-start'
+  date: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: height * 0.02,
+    borderBottomColor: '#D9D9D9',
+    borderBottomWidth: 1
   },
   dropBox: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: height * 0.01,
+    borderBottomColor: '#D9D9D9',
+    borderBottomWidth: 1
+  },
+  hourlyRate: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: height * 0.01,
+    borderBottomColor: '#D9D9D9',
+    borderBottomWidth: 1
   },
   text: {
     fontWeight: 'bold',
     margin: 10
   },
   dropdownButtonStyle: {
-    backgroundColor: '#9D2427',
+    backgroundColor: '#FFFFFF',
     height: 30,
     width: 130,
-    borderRadius: 20
+    borderRadius: 20,
+    borderColor: '#A7C7E7',
+    borderWidth: 1
   },
   dropdownButtonTextStyle: {
-    color:'#F5F5F5',
+    color:'#000000',
     fontSize: 12
   },
   dropdownStyle: {
     borderRadius: 20,
     backgroundColor: '#F5F5F5',
+  },
+  inputContainer: {
+    alignItems: 'center',
+    marginVertical: height * 0.02
   },
   input: {
     height: height / 13,
@@ -65,8 +84,8 @@ module.exports = StyleSheet.create ({
     padding: 10,
     fontSize: 15,
     borderRadius: 20,
-    backgroundColor: '#E6E6E6',
-    borderColor: '#D9D9D9'
+    backgroundColor: '#FFFFFF',
+    borderColor: '#FFFFFF'
   },
   btnContainer: {
     alignItems: 'center'

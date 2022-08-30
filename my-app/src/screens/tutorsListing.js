@@ -2,23 +2,22 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   TextInput,
   SafeAreaView,
   FlatList,
   ActivityIndicator,
 } from 'react-native'
-import styles from '../styles/tutorsListing.styles'
-import profileImg from '../assets/profileImg.jpg'
 import API from '../config/api.js'
+import styles from '../styles/tutorsListing.styles'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export const TutorsListingScreen = ({ navigation }) => {
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [tutors, setTutors] = useState([]);
-  const [search, setSearch] = useState('');
-  const [filterTutor, setFilterTutor] = useState([])
+  const [ isLoading, setIsLoading ] = useState( true );
+  const [ tutors, setTutors ] = useState([ ]);
+  const [ search, setSearch ] = useState('');
+  const [ filterTutor, setFilterTutor ] = useState([ ])
 
   useEffect(() => {
     listTutors()
@@ -52,38 +51,47 @@ export const TutorsListingScreen = ({ navigation }) => {
 
   const myListEmpty = () => {
     return (
-      <View style={{ alignItems: "center" }}>
-        <Text style={styles.empty}>No data found</Text>
+      <View style = {{ alignItems: "center" }}>
+        <Text style = { styles.empty }>No data found</Text>
       </View>
     );
   };
 
   return (
-    <SafeAreaView style={styles.listings}>
-      <TextInput
-        style={styles.search}
-        value={search}
-        placeholder='Search'
-        underlineColorAndroid="transparent"
-        onChangeText={(text) => searchFilter(text)}
-      />
-      {isLoading ? <View style={styles.spinner}><ActivityIndicator size='large' color='#9D2427' /></View> :
-        
+    <SafeAreaView style = { styles.listings }>
+      <View style = { styles.searchContainer }>
+        <TextInput
+          style={styles.search}
+          value={search}
+          placeholder='Search'
+          underlineColorAndroid="transparent"
+          onChangeText={(text) => searchFilter(text)}
+        />
+      </View>
+      
+      {isLoading ? 
+        <View 
+          style = { styles.spinner }>
+          <ActivityIndicator 
+            size = 'large' 
+            color = '#9D2427' 
+          />
+        </View> :
         <FlatList
-          showsVerticalScrollIndicator = {false}
-          data={filterTutor}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.listing}
-              onPress={() => navigation.navigate('Tutor profile', { item })}>
-              <Image style={styles.img} source={profileImg} />
-              <View style={styles.text0}>
-                <Text style={styles.text1}>{item.name}</Text>
-                <Text style={styles.text2}>Experience: {item.experience} yrs</Text>
+          showsVerticalScrollIndicator = { false }
+          data = { filterTutor }
+          renderItem = {({ item }) => (
+            <TouchableOpacity style = { styles.listing }
+              onPress = {() => navigation.navigate( 'Tutor profile', { item })}>
+              <MaterialCommunityIcons name = "account-circle" size = { 60 } color = "#A7C7E7" />
+              <View style = { styles.text0 }>
+                <Text style = { styles.text1 }>{ item.name }</Text>
+                <Text style = { styles.text2 }>Experience: { item.experience } yrs</Text>
               </View>
-              <Text style={styles.price}>${item.hourlyRate}</Text>
+              <Text style = { styles.price }>${ item.hourlyRate }</Text>
             </TouchableOpacity>
           )}
-          ListEmptyComponent={myListEmpty}
+          ListEmptyComponent = { myListEmpty }
         />
       }
     </SafeAreaView>

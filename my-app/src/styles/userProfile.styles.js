@@ -4,39 +4,31 @@ const { height, width } = Dimensions.get( 'window' )
 
 module.exports = StyleSheet.create ({
   container: {
-    flex: 1,
+    flex: 1
+  },
+  imgContainer: {
     alignItems: 'center',
-    backgroundColor: '#D9D9D9'
-    //justifyContent: 'space-evenly'
+    marginTop: height * 0.16,
+    marginBottom: height * 0.08
   },
-  img: {
-    height: height / 2.6,
-    width: width / 1.2,
-
-    resizeMode: 'cover',
-
-    marginTop: 30,
-    borderRadius: 200
+  textContainer: {
+    height: height,
+    width: width,
+    padding: 20
   },
-  texts: {
-    margin: 30,
-
+  icon: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  arrow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderBottomColor: '#D9D9D9',
+    borderBottomWidth: 1,
+    marginTop: height * 0.03
   },
   text: {
-    margin: 5,
-    fontSize: 16
-  },
-  btn: {
-    height: height * 0.06,
-    width: width * 0.35,
-    backgroundColor: '#9D2427',
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
-  },
-  btnText: {
-    color: 'white',
-  },
-
+    marginHorizontal: 10,
+    fontSize: 18
+  }
 })
