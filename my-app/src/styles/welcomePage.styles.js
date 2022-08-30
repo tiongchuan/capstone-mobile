@@ -1,3 +1,4 @@
+import { size } from "lodash";
 import { StyleSheet, Dimensions } from "react-native";
 
 const { height, width } = Dimensions.get('window')
@@ -18,16 +19,26 @@ module.exports = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5
   },
+  textContainer: {
+    flex: 1,
+  },
 
-  search: {
-    backgroundColor: '#FFFFFF',
-    height: 40,
-    width: width * 0.88,
-    borderRadius: 20,
-    padding: 10,
-    borderColor: '#D9D9D9',
-    borderWidth: 1,
-    margin: 10
+  // search: {
+  //   backgroundColor: '#FFFFFF',
+  //   height: 40,
+  //   width: width * 0.88,
+  //   borderRadius: 20,
+  //   padding: 10,
+  //   borderColor: '#D9D9D9',
+  //   borderWidth: 1,
+  //   margin: 10
+  // },
+  p1: {
+    fontSize: 50
+  },
+  p2: {
+    fontSize: 35,
+    fontStyle: 'italic'
   },
   bannerContainer: {
     flex: 1,
@@ -37,18 +48,31 @@ module.exports = StyleSheet.create({
     resizeMode: 'cover',
     width: width * 0.8,
     height: height * 0.25,
+    // borderColor:'black',
+    // border:1
   },
   iconContainer: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    // justifyContent:'space-around'
+    // textAlign:'center',
+    // marginVertical: 16
   },
   icons: {
     flexDirection: 'row',
     paddingHorizontal: 23,
   },
   icon: {
-
+    flex:1,
+    // justifyContent:'center',
+    alignItems:'center'
   },
+  h1: {
+    marginLeft: 30,
+    fontWeight: '800',
+    fontSize: 30
+  }
 
 
 
