@@ -27,7 +27,8 @@
     "react-native-screens": "~3.15.0",
     "react-native-select-dropdown": "^2.0.4",
     "react-native-switch": "^1.5.1",
-    "xdate": "^0.8.0"
+    "xdate": "^0.8.0",
+    "expo-image-picker": "~13.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

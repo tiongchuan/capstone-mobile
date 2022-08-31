@@ -37,7 +37,11 @@ export const TutorProfileScreen = ({ navigation, route }) => {
           onPress = {() => 
             navigation.navigate( 
               'Request Tutor', 
-              { hourlyrate: route.params.item.hourlyRate },
+              { hourlyRate: route.params.item.hourlyRate,
+                name: route.params.item.name,
+                experience: route.params.item.experience,
+                highestEducation: route.params.item.highestEducation
+              },
               // { name: route.params.item.name},
               // { experience: route.params.item.experience},
               // { highestEducation: route.params.item.highestEducation}

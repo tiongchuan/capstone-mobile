@@ -6,10 +6,23 @@ module.exports = StyleSheet.create ({
   container: {
     flex: 1
   },
-  imgContainer: {
+  imgContainer: {  
     alignItems: 'center',
-    marginTop: height * 0.16,
+    marginTop: height * 0.18,
     marginBottom: height * 0.08
+  },
+  profileImg: {
+    position: 'absolute',
+    height: height * 0.23,
+    width: width * 0.5,
+    borderRadius: 100,
+    resizeMode: 'contain'
+  },
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    //marginVertical: height * 0.02
   },
   textContainer: {
     height: height,
