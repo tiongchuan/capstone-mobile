@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Heroku
 const API = axios.create({
-    baseURL: "https://student-database2022.herokuapp.com"
+    baseURL: "https://quiet-river-74601.herokuapp.com"
 });
 
 // // Localhost

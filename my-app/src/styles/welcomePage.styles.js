@@ -6,73 +6,86 @@ const { height, width } = Dimensions.get('window')
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
-    //alignItems: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#FFFFFF'
   },
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
+  headerContainer: {
+    paddingTop: height * 0.06,
+    backgroundColor: '#A7C7E7',
+    padding: 20,
+    width: width
   },
-  textContainer: {
-    flex: 1,
+  imgContainer: {
+    flexDirection: 'row',
+    marginBottom: 10
+  },
+  profileImg: {
+    height: height * 0.08,
+    width: width * 0.17,
+    resizeMode: 'contain',
+    borderRadius: 200,
+  },
+  img: {
+    height: height * 0.07,
+    width: width * 0.16,
+    resizeMode: 'contain'
+  },
+  usernameContainer: {
+    margin: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  userName: {
+    fontSize: 25,
+    fontWeight: 'bold'
+  },
+  headerText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    margin: 3
+  },
+  text: {
+    fontSize: 14,
+    margin: 3
+  },
+  subjects: {
+    padding: 10,
+    height: height * 0.24
+  },
+  subject: {
+    margin: 15,
+    alignItems: 'center' 
+  },
+  listing: {
+    width: width * 0.88,
+    marginTop: 10,
+    padding: 15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  iconAndText: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  texts: {
+    marginHorizontal: width * 0.02
+  },
+  text1: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginBottom: 3
+  },
+  text2: {
+    fontSize: 12
+  },
+  price: {
+    fontWeight: 'bold',
+    fontSize: 17
+
   },
 
-  // search: {
-  //   backgroundColor: '#FFFFFF',
-  //   height: 40,
-  //   width: width * 0.88,
-  //   borderRadius: 20,
-  //   padding: 10,
-  //   borderColor: '#D9D9D9',
-  //   borderWidth: 1,
-  //   margin: 10
-  // },
-  p1: {
-    fontSize: 50
-  },
-  p2: {
-    fontSize: 35,
-    fontStyle: 'italic'
-  },
-  bannerContainer: {
-    flex: 1,
-    paddingHorizontal: width * 0.1
-  },
-  banner: {
-    resizeMode: 'cover',
-    width: width * 0.8,
-    height: height * 0.25,
-    // borderColor:'black',
-    // border:1
-  },
-  iconContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // justifyContent:'space-around'
-    // textAlign:'center',
-    // marginVertical: 16
-  },
-  icons: {
-    flexDirection: 'row',
-    paddingHorizontal: 23,
-  },
-  icon: {
-    flex:1,
-    // justifyContent:'center',
-    alignItems:'center'
-  },
-  h1: {
-    marginLeft: 30,
-    fontWeight: '800',
-    fontSize: 30
-  }
 
 
 

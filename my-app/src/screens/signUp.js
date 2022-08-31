@@ -3,17 +3,17 @@ import {
   Text, 
   Image,
   Keyboard,
-  TextInput,
   ScrollView,
-  TouchableOpacity,
   KeyboardAvoidingView, 
   TouchableWithoutFeedback,
-  } from 'react-native'
-import React, { useState } from 'react'
-import { Switch } from 'react-native-switch'
-import signUpPic from '../assets/signUpPic.jpg'
-import styles from '../styles/signUp.styles'
-import API from '../config/api.js'
+  } from 'react-native';
+  import API from '../config/api.js';
+import React, { useState } from 'react';
+import { Switch } from 'react-native-switch';
+import styles from '../styles/signUp.styles.js';
+import signUpPic from '../assets/signUpPic.jpg';
+import { CustomButton } from '../components/CustomButton.js';
+import { CustomTextInput } from '../components/CustomTextInput.js';
 
 export const SignUpScreen = ({ navigation }) => {
   
@@ -30,7 +30,6 @@ export const SignUpScreen = ({ navigation }) => {
     .post ( '/register', {
       email: email, 
       password: password,
-      //role: role,
     })
     .then ( res => {     
       if ( res.data.status == "200" ) {
@@ -44,8 +43,6 @@ export const SignUpScreen = ({ navigation }) => {
       if ( e.response.status == "500" ) {
         const message = JSON.stringify( e.response.data.message );
         alert( `${message}` );
-        // console.log(e.response.status);
-        // console.log(e.response.data);
       }
     });
   };
@@ -59,32 +56,28 @@ export const SignUpScreen = ({ navigation }) => {
           <View style = { styles.innerContainer }>
             <Image style = { styles.img } source = { signUpPic }/>
             <View style = { styles.inputContainer }>
-              <TextInput 
-                style = { styles.input } 
+              <CustomTextInput 
                 placeholder = 'Username'
                 value = { name }
                 onChangeText = { setName } 
               />
-              <TextInput 
-                style = {styles.input} 
+              <CustomTextInput 
                 placeholder = 'Email' 
                 value = { email }
                 onChangeText = { setEmail }
-                />
-              <TextInput 
-                style = {styles.input} 
+               />
+              <CustomTextInput
                 placeholder = 'Enter password' 
                 value = { password }
-                onChangeText = { setPassword }
-                />
-              <TextInput 
-                style = { styles.input } 
+                onChangeText = { setPassword } 
+              />
+              <CustomTextInput
                 placeholder = 'Confirm password' 
                 value = { confirmPassword }
-                onChangeText = { setConfirmPassword }
-                />
+                onChangeText = { setConfirmPassword } 
+              />
               <View style = { styles.toggle }>
-                <Text style = { styles.text }>I am a </Text>
+                <Text style = { styles.toggleText }>I am a </Text>
                 <Switch
                   value = { isEnabled }
                   onValueChange = { toggleSwitch }
@@ -103,11 +96,10 @@ export const SignUpScreen = ({ navigation }) => {
                   circleInActiveColor = { '#D9D9D9' }
                 />
               </View>
-              <TouchableOpacity
-                style = { styles.btn } 
-                onPress = { handleSignUp }>
-                <Text style = { styles.btnText }>Sign Up</Text>
-              </TouchableOpacity>
+              <CustomButton 
+                onPress = { handleSignUp }
+                text = "Sign Up"
+              />
             </View>
           </View>
         </TouchableWithoutFeedback>

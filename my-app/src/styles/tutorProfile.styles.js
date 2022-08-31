@@ -5,37 +5,35 @@ const { height, width } = Dimensions.get( 'window' )
 module.exports = StyleSheet.create ({
   container: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#D9D9D9',
     padding: 20
-    //justifyContent: 'space-evenly'
+  },
+  imgContainer: {
+    alignItems: 'center'
   },
   img: {
-    height: height / 2.6,
-    width: width / 1.2,
+    height: height * 0.23,
+    width: width * 0.5,
     marginTop: height * 0.05,
     borderColor: 'gray',
-    borderRadius: 200
+    borderRadius: 200,
+    resizeMode: 'contain'
   },
   texts: {
-    margin: height * 0.03
+    paddingHorizontal: width * 0.03
+  },
+  text1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: height * 0.05,
+    borderBottomColor: '#D9D9D9',
+    borderBottomWidth: 1
   },
   text: {
     fontSize: 15,
-    fontWeight: 'bold',
-    margin: 2
+    fontWeight: 'bold'
   },
   btn: {
-    height: 43,
-    width: 150,
-    backgroundColor: '#9D2427',
     alignItems: 'center',
-    justifyContent: 'center',
-    margin: 20,
-    borderRadius: 20,
-    marginTop: height * 0.01
-  },
-  btnText: {
-    color: '#FFFFFF'
+    marginVertical: height * 0.08
   }
 })

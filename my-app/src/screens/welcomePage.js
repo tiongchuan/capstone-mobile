@@ -1,8 +1,11 @@
+
 import React, { useEffect, useState } from "react"
-import { View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
+import { ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
 import styles from '../styles/welcomePage.styles'
 import signUpPic from '../assets/signUpPic.jpg'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import API from '../config/api.js'
+
 
 
 const StarReview = ({ rate }) => {
@@ -14,6 +17,12 @@ const StarReview = ({ rate }) => {
 
   for (let i = 0; i < fullStar; i++) {
     starComponents.push(
+      <MaterialCommunityIcons name="star" key={`full-${i}`} size={20} />
+    )
+  }
+
+  for (let i = 0; i < noStar; i++) {
+    starComponents.push(
       // <Image
       //   key={`full-${i}`}
       //   source={signUpPic}
@@ -23,46 +32,28 @@ const StarReview = ({ rate }) => {
       //     height: 20
       //   }}
       // />
-      <MaterialCommunityIcons name="star" key={`full-${i}`} />
+      <MaterialCommunityIcons name="star-outline" key={`empty-${i}`} size={20} />
     )
   }
-
-  // console.log(starComponents);
 
   for (let i = 0; i < halfStar; i++) {
-    starComponents.push(
-      // <Image
-      //   key={`half-${i}`}
-      //   source={icons.star-half-full}
-      //   resizeMode="cover"
-      //   style={{
-      //     width: 20,
-      //     height: 20
-      //   }}
-      // />
-      <MaterialCommunityIcons name="star-half-full" key={`half-${i}`} />
-    )
-  }
-
-  for (let i = 0; i < noStar; i++) {
-    starComponents.push(
-      // <Image
-      //   key={`empty-${i}`}
-      //   source={icons.star-outline}
-      //   resizeMode="cover"
-      //   style={{
-      //     width: 20,
-      //     height: 20
-      //   }}
-      // />
-      <MaterialCommunityIcons name="star-outline" key={`empty-${i}`} />
-    )
+    let decimal = rate - fullStar;
+    if (decimal < 0.25) {
+      starComponents.push(<MaterialCommunityIcons name="star-outline" key={`decimal-${i}`} size={20} />)
+    } else if (decimal > 0.25 && decimal < 0.75) {
+      starComponents.push(<MaterialCommunityIcons name="star-half-full" key={`decimal-${i}`} size={20} />)
+    } else {
+      starComponents.push(<MaterialCommunityIcons name="star" key={`decimal-${i}`} size={20} />)
+    }
+    // starComponents.push(
+    //   <MaterialCommunityIcons name="star-half-full" key={`half-${i}`} size={20} />
+    // )
   }
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      {/* <Text>{rate}</Text> */}
       {starComponents}
-      <Text>{rate}</Text>
     </View>
   )
 }
@@ -73,14 +64,12 @@ const StarReview = ({ rate }) => {
 //     styles={{flex:1,  alignItems:'center', justifyContent:'center'}}
 //     onPress={onPress}
 //     />
-    
+
 //   )
 // }
 
 
-
 export const WelcomeScreen = ({ navigation, route }) => {
-
 
 
   const [search, setSearch] = useState('');
@@ -127,113 +116,119 @@ export const WelcomeScreen = ({ navigation, route }) => {
   // }
 
 
+  const [tutors, setTutors] = useState([])
+  // const [filterTutor, setFilterTutor] = useState([])
+  const [query, setQuery] = useState("")
+  // const [category, setCategory] = useState("Popular")
 
+  useEffect(() => {
+    listTutors()
+  }, [])
 
+  function listTutors() {
+    API.get('/general/tutors')
+      .then(function (response) {
+        // console.log(response.data.data);
+        setTutors(response.data.data);
+        // setFilterTutor(response.data.data);
+        // (setIsLoading(false))
+      })
+      .catch((e) => (console.log(e)))
+  }
 
-return (
+  const find = (tutors) => {
+    return tutors.filter((item) =>
+      String(item.subjectId).includes(query)
+      // item.highestEducation.toUpperCase().includes(query) ||
+      // (String(item.hourlyRate)).toUpperCase().match(String(query)) ||
+      // (String(item.experience)).toUpperCase().match(String(query))
+    )
+  }
 
-  <View style={styles.container}>
+  return (
 
+    < View style={styles.container} >
+      <View style={styles.headerContainer} >
+        <View style={styles.imgContainer}>
+          <MaterialCommunityIcons name="account-circle" size={80} color="#FFFFFF" />
+          <View style={styles.usernameContainer}>
+            <Text style={styles.userName} >{route.params.email}</Text>
+          </View>
+        </View>
+        <Text style={styles.headerText}>Book a Tutor</Text>
+        <Text style={styles.headerText}>Anytime, Anywhere</Text>
+      </View>
 
-    <View style={styles.textContainer}>
-      <Text style={styles.p1}>Welcome , </Text>
-      <Text style={styles.p2}>Mia</Text>
-    </View>
+      <ScrollView style={styles.subjects} horizontal={true} >
+      <View style={styles.subject}>
+          <MaterialCommunityIcons name="clipboard-text-outline" size={50} color= {(query==='')?"black":"#A7C7E7"}
+            onPress={() => { setQuery('')}}
+          />
+          <Text style={styles.text}>Popular</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="alphabetical" size={50} color= {(query==='1')?"black":"#A7C7E7"}
+            onPress={() => { setQuery('1') }}
+          />
+          <Text style={styles.text}>English</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="calculator-variant-outline" size={50} color= {(query==='2')?"black":"#A7C7E7"}
+            onPress={() => { setQuery('2') }}
+          />
+          <Text style={styles.text}>Math</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="atom" size={50} color="#A7C7E7" />
+          <Text style={styles.text}>Science</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="camera-timer" size={50} color="#A7C7E7" />
+          <Text style={styles.text}>History</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="ideogram-cjk-variant" size={50} color="#A7C7E7" />
+          <Text style={styles.text}>Chinese</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="creation" size={50} color="#A7C7E7" />
+          <Text style={styles.text}>Art</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="earth" size={50} color="#A7C7E7" />
+          <Text style={styles.text}>Geography</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="flask" size={50} color="#A7C7E7" />
+          <Text style={styles.text}>Chemistry</Text>
+        </View>
+        <View style={styles.subject}>
+          <MaterialCommunityIcons name="mine" size={50} color="#A7C7E7" />
+          <Text style={styles.text}>Biology</Text>
+        </View>
 
-    {/* <TextInput
-        style={styles.search}
-        value={search}
-        placeholder='Search for Tutor, Subject, Hourly Rate...'
-        underlineColorAndroid="transparent"
-      onChangeText={(text) => searchFilter(text)}
-      /> */}
-
-
-    <View style={styles.bannerContainer}>
-      <Image style={styles.banner} source={signUpPic} />
-    </View>
-
-    <View style={styles.iconContainer}>
-        <View style={styles.icons}>
-        <View style={styles.icon}>
-          <MaterialCommunityIcons name="alphabetical" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-            <Text style={{marginTop:0}}>home</Text>
+      </ScrollView>
+      <FlatList
+        style={styles.listings}
+        showsVerticalScrollIndicator={false}
+        data={find(tutors)}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.listing}
+            onPress={() => navigation.navigate('Tutor profile', { item })}
+          >
+            <View style={styles.iconAndText}>
+              <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />
+              <View style={styles.texts}>
+                <Text style={styles.text1}>{item.name}</Text>
+                <Text style={styles.text2}>${item.hourlyRate}/hr</Text>
+              </View>
             </View>
-          <MaterialCommunityIcons name="atom" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-          <MaterialCommunityIcons name="angle-acute" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-          <MaterialCommunityIcons name="ideogram-cjk-variant" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-        </View>
-        <View style={styles.icons}>
-          <MaterialCommunityIcons name="angularjs" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-          <MaterialCommunityIcons name="violin" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-          <MaterialCommunityIcons name="sine-wave" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-          <MaterialCommunityIcons name="basketball" color="#9D2427" size={85}
-            onPress={() => { console.log('helo') }} />
-        </View>
-      </View>
-
-{/* 
-    <View style={styles.icons}>
-      <View style={styles.icon}>
-        <IconItem
-          icon ='atom'
-          bgColor={['#46aeff', '#5884ff']}
-          label='Science'
-          onPress={() => { console.log('helo') }}
-        />
-      </View>
-    </View> */}
-
-
-
-
-    <View style={{ flex: 1 }}>
-      <Text style={styles.h1}>Popular Tutors</Text>
-      {/* <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={search }
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item, index }) => renderData(item, index)}
-        /> */}
-
-
-      <StarReview rate={3.5} />
-
-    </View>
-  </View>
-
-
-
-
-
-
-  // <View style = { styles.container }>
-  //   <View style={styles.btn}>
-  //     <Button 
-  //       title='Log out' onPress={()=>navigation.navigate('Home')} />
-  //   </View>
-  //   <View style={styles.container1} >
-  //     <View style={styles.welcomeTexts}>
-  //       <Text style={styles.p1}>Welcome </Text>
-  //       <Text style={styles.p2}> { route.params.email } </Text>
-  //     </View>
-  //     <Image style = { styles.img } source = { boy } />
-
-  //     <View style = { styles.texts }> 
-  // {/* <Text style = { styles.text }>Name: { route.params.name }</Text> */}
-  //       <Text style = { styles.text }>Age: 20 </Text>
-  //       <Text style = { styles.text }>E-mail: { route.params.email } </Text>
-  //       <Text style = { styles.text }>Mobile number: 94582165 </Text>
-  //     </View>
-  //   </View>
-  // </View>
-)
+            {/* <Text style={styles.price}>{item.rating}/5</Text> */}
+            <StarReview rate={item.rating} />
+          </TouchableOpacity>
+        )}
+      //ListEmptyComponent={myListEmpty}
+      />
+    </View >
+  )
 }

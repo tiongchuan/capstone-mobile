@@ -8,16 +8,36 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-} from 'react-native'
-import dayjs from 'dayjs'
-import { Calendar } from 'react-native-calendars'
-import styles from '../styles/requestTutor.styles'
-import SelectDropdown from 'react-native-select-dropdown'
+} from 'react-native';
+import dayjs from 'dayjs';
+import { Calendar } from 'react-native-calendars';
+import styles from '../styles/requestTutor.styles.js';
+import SelectDropdown from 'react-native-select-dropdown';
+import { CustomButton } from '../components/CustomButton.js';
 
 export const RequestTutorScreen = ({ navigation, route }) => {
 
   const [dayPress, setDayPress] = useState ()
   const [manageTimeSlot, setManageTimeSlot] = useState()
+
+  const handleAppointment = async() => {
+    await API
+      .put ('/protected/enrollment/add', {
+        enrollmentDate: bookingDate, 
+        bookingTime: bookingTime,
+        //tutor: tutor
+      })
+      .then (res => {
+        navigation.navigate( 'My Activity', {
+          date:date, 
+          time:time, 
+          tutor: route.params.tutor,
+          //itemLists: itemLists
+        })
+          console.log(res.message);
+      })
+  }
+
   const onDayPress = ( day ) => {
     const dateString = dayjs( day.dateString ).format( 'DD/MM/YYYY' )
     setDayPress( dateString )
@@ -25,10 +45,10 @@ export const RequestTutorScreen = ({ navigation, route }) => {
   }
   const date = dayPress? dayPress.toString () : ''
   const timeSlot = [
-    '10:00 ~ 12:00',
-    '13:00 ~ 15:00',
-    '16:00 ~ 18:00',
-    '19:00 ~ 21:00'
+    '10:00 - 12:00',
+    '13:00 - 15:00',
+    '16:00 - 18:00',
+    '19:00 - 21:00'
   ]
   const onSelectTimeSlot = ( selectedTimeSlot ) => {
     const timeSlot = selectedTimeSlot
@@ -51,38 +71,44 @@ export const RequestTutorScreen = ({ navigation, route }) => {
         behavior= { Platform.OS === "ios" ? "padding" : "height" }>
         <TouchableWithoutFeedback onPress = { Keyboard.dismiss }>
           <View style = { styles.innerContainer }>
-            <Calendar
-              style = { styles.calendar }
-              onDayPress= { onDayPress }
-              enableSwipeMonths = { true }
-              theme = {{
-                calendarBackground: '#9D2427',
-                selectedDayBackgroundColor: 'white',
-                selectedDayTextColor: 'black',
-                selectedDotColor: 'black',
-                todayTextColor: 'pink',
-                dayTextColor: '#FFFFFF',
-                textDisabledColor: 'gray',
-                dotColor: 'white',
-                textDayFontSize: 12,
-                monthTextColor: '#FFFFFF',
-                textMonthFontWeight: 'bold',
-                arrowColor: '#FFFFFF',
-                'stylesheet.calendar.header': {
-                  week: {
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly'
+            <View style = { styles.calendarContainer}>
+              <Calendar
+                style = { styles.calendar }
+                onDayPress= { onDayPress }
+                enableSwipeMonths = { true }
+                theme = {{
+                  textSectionTitleColor: 'gray',
+                  calendarBackground: '#A7C7E7',
+                  selectedDayBackgroundColor: 'white',
+                  selectedDayTextColor: 'black',
+                  selectedDotColor: 'black',
+                  //todayTextColor: 'blue',
+                  dayTextColor: '#000000',
+                  textDisabledColor: 'gray',
+                  dotColor: 'white',
+                  textDayFontSize: 12,
+                  monthTextColor: '#000000',
+                  textMonthFontWeight: 'bold',
+                  textDayHeaderColor: 'black',
+                  arrowColor: '#000000',
+                  'stylesheet.calendar.header': {
+                    week: {
+                      marginTop: 10,
+                      flexDirection: 'row',
+                      justifyContent: 'space-evenly'
+                    }
                   }
-                }
-              }} />
+                }} 
+              />
+            </View>
             <View style = { styles.textsContainer }>
-              <View style = { styles.texts }>
-                <Text
-                  style = { styles.text }>
-                  Selected Date: { date }
-                </Text>
+              
+                <View style = { styles.date }>
+                  <Text style = { styles.text }>Selected Date</Text>
+                  <Text style = { styles.text }>{ date }</Text>
+                </View>
                 <View style = { styles.dropBox }>
-                  <Text style = { styles.text }>Time:</Text>
+                  <Text style = { styles.text }>Time</Text>
                   <SelectDropdown
                     defaultButtonText = 'select time'
                     dropdownStyle = { styles.dropdownStyle }
@@ -99,8 +125,11 @@ export const RequestTutorScreen = ({ navigation, route }) => {
                     }}
                   />
                 </View>
-                <Text style = { styles.text }>Total Price: {(route.params.hourlyrate)*2}</Text>
-              </View>
+                <View style = { styles.hourlyRate }>
+                  <Text style = { styles.text }>Total Price</Text>
+                  <Text style = { styles.text }>S${( route.params.hourlyrate ) * 2 }</Text>
+                </View>
+              
             </View>
             <View style = { styles.inputContainer }>
               <TextInput
@@ -110,17 +139,11 @@ export const RequestTutorScreen = ({ navigation, route }) => {
               numberOfLines = { 5 }
               onChangeText = {( text ) => { text }}/>
             </View>
-            {/* <View style = { styles.populate}>
-              { populate.map ( item => (
-                <Text >{ item.any }</Text>
-              ))}
-            </View> */}
             <View style = { styles.btnContainer }>
-              <TouchableOpacity
-                style = { styles.btn }
-                onPress = { pressConfirm }>
-                <Text style = { styles.btnText }>Confirm</Text>
-              </TouchableOpacity>
+              <CustomButton 
+                onPress = { pressConfirm }
+                text = "Confirm"
+              />
             </View>
           </View>
         </TouchableWithoutFeedback>
