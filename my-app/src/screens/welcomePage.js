@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react"
 import { ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
 import styles from '../styles/welcomePage.styles'
-import signUpPic from '../assets/signUpPic.jpg'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import API from '../config/api.js'
 
@@ -21,6 +20,17 @@ const StarReview = ({ rate }) => {
     )
   }
 
+  for (let i = 0; i < halfStar; i++) {
+    let decimal = rate - fullStar;
+    if (decimal < 0.25) {
+      starComponents.push(<MaterialCommunityIcons name="star-outline" key={`decimal-${i}`} size={20} />)
+    } else if (decimal > 0.25 && decimal < 0.75) {
+      starComponents.push(<MaterialCommunityIcons name="star-half-full" key={`decimal-${i}`} size={20} />)
+    } else {
+      starComponents.push(<MaterialCommunityIcons name="star" key={`decimal-${i}`} size={20} />)
+    }
+  }
+
   for (let i = 0; i < noStar; i++) {
     starComponents.push(
       // <Image
@@ -36,19 +46,7 @@ const StarReview = ({ rate }) => {
     )
   }
 
-  for (let i = 0; i < halfStar; i++) {
-    let decimal = rate - fullStar;
-    if (decimal < 0.25) {
-      starComponents.push(<MaterialCommunityIcons name="star-outline" key={`decimal-${i}`} size={20} />)
-    } else if (decimal > 0.25 && decimal < 0.75) {
-      starComponents.push(<MaterialCommunityIcons name="star-half-full" key={`decimal-${i}`} size={20} />)
-    } else {
-      starComponents.push(<MaterialCommunityIcons name="star" key={`decimal-${i}`} size={20} />)
-    }
-    // starComponents.push(
-    //   <MaterialCommunityIcons name="star-half-full" key={`half-${i}`} size={20} />
-    // )
-  }
+
 
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -70,51 +68,6 @@ const StarReview = ({ rate }) => {
 
 
 export const WelcomeScreen = ({ navigation, route }) => {
-
-
-  const [search, setSearch] = useState('');
-
-
-  // const searchFilter = (text) => {
-  //   if (text) {
-  //     const newData = tutors.filter((item) => {
-  //       const tutorUpper = item.name ? item.name.toUpperCase() : "".toUpperCase();
-  //       const textUpper = text.toUpperCase();
-  //       return tutorUpper.indexOf(textUpper) > -1;
-  //     })
-  //     setFilterTutor(newData)
-  //     setSearch(text);
-  //   } else {
-  //     setFilterTutor(tutors);
-  //     setSearch(text)
-  //   }
-  // }
-
-
-  // function renderData(item, index){
-
-  //   let dataStyle={}
-  //   if(index==0){
-  //     dataStyle={marginLeft:30}
-  //   }
-
-  //   return(
-
-  //     <TouchableOpacity
-  //     style={{justifyContent:'center'}}
-  //     onPress={()=>{console.log('pressed');}}
-  //     >
-  //      <Image
-  //      source={signUpPic}
-  //      style={{height:'20'}}
-  //      /> 
-
-  //      <Text style={styles.h1}>{item.name}</Text>
-
-  //     </TouchableOpacity>
-  //   )
-  // }
-
 
   const [tutors, setTutors] = useState([])
   // const [filterTutor, setFilterTutor] = useState([])
@@ -139,9 +92,6 @@ export const WelcomeScreen = ({ navigation, route }) => {
   const find = (tutors) => {
     return tutors.filter((item) =>
       String(item.subjectId).includes(query)
-      // item.highestEducation.toUpperCase().includes(query) ||
-      // (String(item.hourlyRate)).toUpperCase().match(String(query)) ||
-      // (String(item.experience)).toUpperCase().match(String(query))
     )
   }
 

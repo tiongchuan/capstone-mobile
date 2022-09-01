@@ -35,8 +35,8 @@ export const TutorsListingScreen = ({ navigation }) => {
 
   const find = (tutors) => {
     return tutors.filter((item) =>
-      item.name.toUpperCase().includes(query) ||
-      item.highestEducation.toUpperCase().includes(query) ||
+      item.name.toUpperCase().includes(query.toUpperCase()) ||
+      item.highestEducation.toUpperCase().includes(query.toUpperCase()) ||
       (String(item.hourlyRate)).toUpperCase().match(String(query)) ||
       (String(item.experience)).toUpperCase().match(String(query))
     )
@@ -50,16 +50,29 @@ export const TutorsListingScreen = ({ navigation }) => {
     );
   };
 
+  function Highlight({fullText}){
+    const parts = fullText.toString().split(new RegExp(`(${query})`, 'gim'));
+    // console.log('split:', parts);
+    return (
+      <Text>{parts.map(part => (
+        part.toLowerCase() === query.toLowerCase()) ?
+          <Text style = {{backgroundColor: '#A7C7E7'}}>{part}</Text> :
+          part)}
+      </Text>
+    );
+}
+
+
   return (
     <SafeAreaView style={styles.listings}>
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.search}
           // value={search}
-          placeholder='Search for Name, Experience, Qualification...'
+          placeholder='Search for Name, Subject, Experience...'
           underlineColorAndroid="transparent"
           onChangeText={(text) => {
-            setQuery(text.toUpperCase())
+            setQuery(text)
             find(tutors)
           }}
         />
@@ -81,10 +94,18 @@ export const TutorsListingScreen = ({ navigation }) => {
               onPress={() => navigation.navigate('Tutor profile', { item })}>
               <MaterialCommunityIcons name="account-circle" size={60} color="#A7C7E7" />
               <View style={styles.text0}>
-                <Text style={styles.text1}>{item.name}</Text>
-                <Text style={styles.text2}>Experience: {item.experience} yrs</Text>
+                {/* <Text style={styles.text1}>{item.name}</Text> */}
+                <Highlight style={styles.text1} 
+                fullText={item.name}></Highlight>
+                {/* <Text style={styles.text2}>Experience: {item.experience} yrs</Text> */}
+                <Text style={styles.text2}>Experience:
+                <Highlight style={styles.text2} 
+                fullText={item.experience} ></Highlight> yrs</Text>
               </View>
-              <Text style={styles.price}>${item.hourlyRate}</Text>
+              {/* <Text style={styles.price}>${item.hourlyRate}</Text> */}
+               <Text style={styles.price}>$
+              <Highlight style={styles.price} 
+                fullText={item.hourlyRate}></Highlight></Text>
             </TouchableOpacity>
           )}
           ListEmptyComponent={myListEmpty}
