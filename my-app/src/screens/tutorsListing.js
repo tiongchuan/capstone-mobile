@@ -24,7 +24,8 @@ export const TutorsListingScreen = ({ navigation }) => {
   }, [])
 
   function listTutors() {
-    API.get('/general/tutors')
+    // API.get('/general/tutors')
+    API.get('/general/viewTutor')
       .then(function (response) {
         // console.log(response.data.data);
         setTutors(response.data.data);
@@ -35,7 +36,8 @@ export const TutorsListingScreen = ({ navigation }) => {
 
   const find = (tutors) => {
     return tutors.filter((item) =>
-      item.name.toUpperCase().includes(query.toUpperCase()) ||
+      // item.name.toUpperCase().includes(query.toUpperCase()) ||
+      item.tutorName.toUpperCase().includes(query.toUpperCase()) ||
       item.highestEducation.toUpperCase().includes(query.toUpperCase()) ||
       (String(item.hourlyRate)).toUpperCase().match(String(query)) ||
       (String(item.experience)).toUpperCase().match(String(query))
@@ -54,9 +56,9 @@ export const TutorsListingScreen = ({ navigation }) => {
     const parts = fullText.toString().split(new RegExp(`(${query})`, 'gim'));
     // console.log('split:', parts);
     return (
-      <Text>{parts.map(part => (
+      <Text>{parts.map((part,i) => (
         part.toLowerCase() === query.toLowerCase()) ?
-          <Text style = {{backgroundColor: '#A7C7E7'}}>{part}</Text> :
+          <Text key={i} style = {{backgroundColor: '#A7C7E7'}}>{part}</Text> :
           part)}
       </Text>
     );
@@ -69,7 +71,7 @@ export const TutorsListingScreen = ({ navigation }) => {
         <TextInput
           style={styles.search}
           // value={search}
-          placeholder='Search for Name, Subject, Experience...'
+          placeholder='Search for Name, Subject, Hourly Rate...'
           underlineColorAndroid="transparent"
           onChangeText={(text) => {
             setQuery(text)
@@ -96,7 +98,8 @@ export const TutorsListingScreen = ({ navigation }) => {
               <View style={styles.text0}>
                 {/* <Text style={styles.text1}>{item.name}</Text> */}
                 <Highlight style={styles.text1} 
-                fullText={item.name}></Highlight>
+                // fullText={item.name}></Highlight>
+                fullText={item.tutorName}></Highlight>
                 {/* <Text style={styles.text2}>Experience: {item.experience} yrs</Text> */}
                 <Text style={styles.text2}>Experience:
                 <Highlight style={styles.text2} 
