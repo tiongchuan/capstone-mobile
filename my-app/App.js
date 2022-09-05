@@ -14,12 +14,13 @@ import { ProfileAccountScreen } from './src/screens/profile.account';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
 // import Tabs from './src/navigation/tabs';
 
 function Tabs() {
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false }}>
+    <Tab.Navigator initialRouteName='Tutors' screenOptions={{ headerShown: false }}>
 
       <Tab.Screen
         name = "Welcome"
@@ -81,6 +82,7 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
       >
+
         <Stack.Screen name = 'Home' component = { MainScreen } />
         <Stack.Screen name = 'Sign Up' component = { SignUpScreen } />
         <Stack.Screen name = 'Login' component = { LoginScreen } />
