@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   View, 
   Text, 
   TouchableOpacity 
 } from 'react-native'
+import API from '../config/api.js';
 import styles from '../styles/tutorProfile.styles.js'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export const ProfileAccountScreen = ({ navigation, route }) => {
-
   return (
     <View style = { styles.container }>
       <View style = { styles.imgContainer }>

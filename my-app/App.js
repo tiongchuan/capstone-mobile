@@ -17,57 +17,52 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 // import Tabs from './src/navigation/tabs';
 
-function Tabs() {
+function Tabs(props) {
+  const params = props.route.params;
   const Tab = createBottomTabNavigator();
   return (
-    <Tab.Navigator initialRouteName='Tutors' screenOptions={{ headerShown: false }}>
+
+    <Tab.Navigator 
+      initialRouteName = 'Welcome' 
+      screenOptions = {({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'Welcome') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Tutors') {
+            iconName = focused ? 'account-group' : 'account-group-outline';
+          } else if (route.name === 'My Activity') {
+            iconName = focused ? 'calendar' : 'calendar-outline';
+          } else if (route.name === 'My profile') {
+            iconName = focused ? 'account' : 'account-outline';
+          }
+          return <MaterialCommunityIcons name = { iconName } size = { size } color = { color } />;
+        }
+      })}>
 
       <Tab.Screen
         name = "Welcome"
         component = {WelcomeScreen}
-        options={{
-            tabBarLabel: 'Home',
-            tabBarActiveBackgroundColor: "#D9D9D9",
-            tabBarIcon: ({ size }) => (
-                <MaterialCommunityIcons name="home" color="#A7C7E7" size={size} />)
-        }}
+        initialParams = {params}
       />
 
       <Tab.Screen
         name="Tutors"
         component={TutorsListingScreen}
-        options={{
-          tabBarLabel: 'Search',
-          tabBarActiveBackgroundColor: "#D9D9D9",
-          tabBarIcon: ({ size }) => (
-            <MaterialCommunityIcons name="magnify" color="#A7C7E7" size={size} />)
-        }}
+        initialParams = {params}
       />
 
       <Tab.Screen
         name="My Activity"
         component={MyActivityScreen}
-        options={{
-          tabBarLabel: 'Bookings',
-          tabBarActiveBackgroundColor: "#D9D9D9",
-          tabBarIcon: ({ size }) => (
-            <MaterialCommunityIcons name="bookmark" color="#A7C7E7" size={size} />)
-        }}
+        initialParams = {params}
       />
       
       <Tab.Screen
         name="My profile"
         component={UserProfileScreen}
-        options={{
-            tabBarLabel: 'Profile',
-            tabBarActiveBackgroundColor: "#D9D9D9",
-            tabBarIcon: ({ size }) => (
-                <MaterialCommunityIcons 
-                  name="account" 
-                  color="#A7C7E7" 
-                  size={size} 
-                />)
-        }}
+        initialParams = {params}
       />
     </Tab.Navigator>
   )

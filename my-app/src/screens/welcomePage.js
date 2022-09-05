@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react"
 import { ActivityIndicator,ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
 import styles from '../styles/welcomePage.styles'
@@ -82,14 +81,17 @@ export const WelcomeScreen = ({ navigation, route }) => {
 
   return (
 
-    < View style={styles.container} >
-
-      <View style={styles.headerContainer} >
-        <View style={styles.imgContainer}>
-          <MaterialCommunityIcons name="account-circle" size={80} color="#FFFFFF" />
-          <View style={styles.usernameContainer}>
-            <Text style={styles.userName} >{route.params.email}</Text>
-          </View>
+    <View style = { styles.container }>
+      <View style = { styles.headerContainer } >
+        <View style = { styles.imgContainer }>
+          <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />
+          <View style= { styles.usernameContainer }>            
+            <Text 
+              onPress={() => navigation.navigate( 'My profile', { userId: route.params.userId })}
+              style = { styles.userName } >
+              { route.params.username }
+            </Text> 
+          </View>         
         </View>
         <Text style={styles.headerText}>Book a Tutor</Text>
         <Text style={styles.headerText}>Anytime, Anywhere</Text>
