@@ -14,12 +14,14 @@ import { ProfileAccountScreen } from './src/screens/profile.account';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+
 // import Tabs from './src/navigation/tabs';
 
 function Tabs(props) {
   const params = props.route.params;
   const Tab = createBottomTabNavigator();
   return (
+
     <Tab.Navigator 
       initialRouteName = 'Welcome' 
       screenOptions = {({ route }) => ({
@@ -75,6 +77,7 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
       >
+
         <Stack.Screen name = 'Home' component = { MainScreen } />
         <Stack.Screen name = 'Sign Up' component = { SignUpScreen } />
         <Stack.Screen name = 'Login' component = { LoginScreen } />

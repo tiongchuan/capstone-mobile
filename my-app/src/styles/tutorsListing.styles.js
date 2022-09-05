@@ -18,10 +18,15 @@ module.exports = StyleSheet.create({
     width: width * 0.88,
     borderRadius: 20,
     padding: 10,
-    borderColor:'#D9D9D9',
+    borderColor: '#D9D9D9',
     borderWidth: 1,
     margin: 10,
     marginTop: height * 0.05
+  },
+  headerContainer: {
+    //   flex:1,
+    flexDirection: 'row',
+   
   },
   listing: {
     padding: 24,
@@ -32,8 +37,8 @@ module.exports = StyleSheet.create({
     borderBottomWidth: 1,
     marginHorizontal: width * 0.02
   },
-  text0:{
-    flex:2,
+  text0: {
+    flex: 2,
     paddingHorizontal: width * 0.05
   },
   text1: {
