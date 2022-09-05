@@ -17,7 +17,7 @@ import { CustomTextInput } from '../components/CustomTextInput.js';
 
 export const SignUpScreen = ({ navigation }) => {
   
-  const [name, setName] = useState(null);
+  const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
@@ -37,12 +37,13 @@ if (isEnabled){
 
     await API
     .post ( '/register', {
+      username: username,
       email: email, 
       password: password,
     })
     .then ( res => {     
       if ( res.data.status == "200" ) {
-        navigation.navigate('Tabs', {screen:'Welcome', params:{email:email}});
+        navigation.navigate('Tabs', {screen:'Welcome', params:{username:res.data.data.username}});
         console.log( res.data );
         console.log( "sign up successfully" );
       } 
@@ -67,8 +68,8 @@ if (isEnabled){
             <View style = { styles.inputContainer }>
               <CustomTextInput 
                 placeholder = 'Username'
-                value = { name }
-                onChangeText = { setName } 
+                value = { username }
+                onChangeText = { setUsername } 
               />
               <CustomTextInput 
                 placeholder = 'Email' 

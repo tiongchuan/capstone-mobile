@@ -64,6 +64,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
       .catch((e) => (console.log(e)))
   }
 
+
   const find = (tutors) => {
     return tutors.filter((item) =>
       String(item.subject).includes(query)
@@ -74,6 +75,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
     return (
       <View style={{ alignItems: "center" }}>
         <Text style={styles.empty}>No Tutor available</Text>
+
       </View>
     );
   };

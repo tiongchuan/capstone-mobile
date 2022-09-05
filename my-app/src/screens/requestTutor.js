@@ -5,7 +5,6 @@ import {
   Keyboard,
   TextInput,
   ScrollView, 
-  TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -61,6 +60,12 @@ export const RequestTutorScreen = ({ navigation, route }) => {
     // setPopulate(prev => {
     //   return {any:[...prev.any, ...prev.onDayPress]}
     // })
+    console.log(`
+      ${route.params.name}
+      ${route.params.experience}
+      ${route.params.hourlyRate}
+      ${route.params.highestEducation}
+    `)
     console.log(date, time)
     navigation.navigate( 'My Activity' )
   }
@@ -127,7 +132,7 @@ export const RequestTutorScreen = ({ navigation, route }) => {
                 </View>
                 <View style = { styles.hourlyRate }>
                   <Text style = { styles.text }>Total Price</Text>
-                  <Text style = { styles.text }>S${( route.params.hourlyrate ) * 2 }</Text>
+                  <Text style = { styles.text }>S${( route.params.hourlyRate ) * 2 }</Text>
                 </View>
               
             </View>
