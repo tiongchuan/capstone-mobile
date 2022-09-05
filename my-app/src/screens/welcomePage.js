@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react"
-import { ActivityIndicator,ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
+import { ActivityIndicator, ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
 import styles from '../styles/welcomePage.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import API from '../config/api.js'
@@ -54,7 +54,6 @@ export const WelcomeScreen = ({ navigation, route }) => {
   }, [])
 
   function listTutors() {
-
     API.get('/general/viewTutor')
       .then(function (response) {
         // console.log(response.data.data);
@@ -63,7 +62,6 @@ export const WelcomeScreen = ({ navigation, route }) => {
       })
       .catch((e) => (console.log(e)))
   }
-
 
   const find = (tutors) => {
     return tutors.filter((item) =>
@@ -95,6 +93,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
         <Text style={styles.headerText}>Anytime, Anywhere</Text>
       </View>
 
+<View style={{flex:1}}>
       <ScrollView style={styles.subjects} horizontal={true} >
         <View style={styles.subject}>
           <MaterialCommunityIcons name="clipboard-text-outline" size={50} color={(query === '') ? "black" : "#A7C7E7"}
@@ -148,37 +147,39 @@ export const WelcomeScreen = ({ navigation, route }) => {
           <Text style={styles.text}>Biology</Text>
         </View>
       </ScrollView>
+      </View>
 
-        {isLoading ?
-          <View
-            style={styles.spinner}>
-            <ActivityIndicator
-              size='large'
-              color='#A7C7E7'
-            />
-          </View> :
-          <FlatList
-            style={styles.listings}
-            showsVerticalScrollIndicator={false}
-            data={find(tutors).sort((a,b)=>b.rating - a.rating)}
-            renderItem={({ item }) => (
-              <TouchableOpacity style={styles.listing}
-                onPress={() => navigation.navigate('Tutor profile', { item })}
-              >
-                <View style={styles.iconAndText}>
-                  <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />
-                  <View style={styles.texts}>
-                    <Text style={styles.text1}>{item.tutorName}</Text>
-                    <Text style={styles.text2}>${item.hourlyRate}/hr</Text>
-                  </View>
-                </View>
-                {/* <Text style={styles.price}>{item.rating}/5</Text> */}
-                <StarReview rate={item.rating} />
-              </TouchableOpacity>
-            )}
-            ListEmptyComponent={myListEmpty}
+<View style={{flex:3}}>
+      {isLoading ?
+        <View
+          style={styles.spinner}>
+          <ActivityIndicator
+            size='large'
+            color='#A7C7E7'
           />
-        }
+        </View> :
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={find(tutors).sort((a, b) => b.rating - a.rating)}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.listing}
+              onPress={() => navigation.navigate('Tutor profile', { item })}
+            >
+              <View style={styles.iconAndText}>
+                <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />
+                <View style={styles.texts}>
+                  <Text style={styles.text1}>{item.tutorName}</Text>
+                  <Text style={styles.text2}>${item.hourlyRate}/hr</Text>
+                </View>
+              </View>
+              {/* <Text style={styles.price}>{item.rating}/5</Text> */}
+              <StarReview rate={item.rating} />
+            </TouchableOpacity>
+          )}
+          ListEmptyComponent={myListEmpty}
+        />
+        // </ScrollView>
+      }</View>
 
     </View >
   )
