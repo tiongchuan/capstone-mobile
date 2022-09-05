@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { 
   View, 
   Text, 
+  Image,
   FlatList, 
   ScrollView,
   TouchableOpacity
@@ -36,7 +37,11 @@ export const WelcomeScreen = ({ navigation, route }) => {
         <View style = { styles.imgContainer }>
           <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />
           <View style= { styles.usernameContainer }>            
-            <Text style = { styles.userName } >{ route.params.username }</Text> 
+            <Text 
+              onPress={() => navigation.navigate( 'My profile', { userId: route.params.userId })}
+              style = { styles.userName } >
+              { route.params.username }
+            </Text> 
           </View>         
         </View>
         <Text style = { styles.headerText }>Book a Tutor</Text>
