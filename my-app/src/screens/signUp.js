@@ -24,6 +24,15 @@ export const SignUpScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
+let profile
+if (isEnabled){
+  profile = 'user'
+} else {
+ profile = 'tutor'
+}
+// console.log(profile);
+
+
   const handleSignUp =  async () => {
 
     await API

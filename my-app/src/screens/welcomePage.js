@@ -46,9 +46,7 @@ const StarReview = ({ rate }) => {
 export const WelcomeScreen = ({ navigation, route }) => {
 
   const [tutors, setTutors] = useState([])
-  // const [filterTutor, setFilterTutor] = useState([])
   const [query, setQuery] = useState("")
-  // const [category, setCategory] = useState("Popular")
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -56,12 +54,11 @@ export const WelcomeScreen = ({ navigation, route }) => {
   }, [])
 
   function listTutors() {
-    // API.get('/general/tutors')
+
     API.get('/general/viewTutor')
       .then(function (response) {
         // console.log(response.data.data);
         setTutors(response.data.data);
-        // setFilterTutor(response.data.data);
         (setIsLoading(false))
       })
       .catch((e) => (console.log(e)))
@@ -76,7 +73,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
   const myListEmpty = () => {
     return (
       <View style={{ alignItems: "center" }}>
-        <Text style={styles.empty}>No Tutor found</Text>
+        <Text style={styles.empty}>No Tutor available</Text>
       </View>
     );
   };
@@ -169,9 +166,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
                 <View style={styles.iconAndText}>
                   <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />
                   <View style={styles.texts}>
-                    {/* <Text style={styles.text1}>{item.name}</Text> */}
                     <Text style={styles.text1}>{item.tutorName}</Text>
-                    {/* <Text style={styles.text2}>{item.subject}</Text> */}
                     <Text style={styles.text2}>${item.hourlyRate}/hr</Text>
                   </View>
                 </View>

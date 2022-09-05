@@ -24,7 +24,7 @@ export const TutorsListingScreen = ({ navigation }) => {
   }, [])
 
   function listTutors() {
-    // API.get('/general/tutors')
+
     API.get('/general/viewTutor')
       .then(function (response) {
         // console.log(response.data.data);
@@ -36,9 +36,8 @@ export const TutorsListingScreen = ({ navigation }) => {
 
   const find = (tutors) => {
     return tutors.filter((item) =>
-      // item.name.toUpperCase().includes(query.toUpperCase()) ||
       item.tutorName.toUpperCase().includes(query.toUpperCase()) ||
-      item.highestEducation.toUpperCase().includes(query.toUpperCase()) ||
+      item.subject.toUpperCase().includes(query.toUpperCase()) ||
       (String(item.hourlyRate)).toUpperCase().match(String(query)) ||
       (String(item.experience)).toUpperCase().match(String(query))
     )
@@ -52,17 +51,17 @@ export const TutorsListingScreen = ({ navigation }) => {
     );
   };
 
-  function Highlight({fullText}){
+  function Highlight({ fullText }) {
     const parts = fullText.toString().split(new RegExp(`(${query})`, 'gim'));
-    // console.log('split:', parts);
+    // console.log(parts);
     return (
-      <Text>{parts.map((part,i) => (
+      <Text>{parts.map((part, i) => (
         part.toLowerCase() === query.toLowerCase()) ?
-          <Text key={i} style = {{backgroundColor: '#A7C7E7'}}>{part}</Text> :
-          part)}
+        <Text key={i} style={{ backgroundColor: '#A7C7E7' }}>{part}</Text> :
+        part)}
       </Text>
     );
-}
+  }
 
 
   return (
@@ -95,20 +94,21 @@ export const TutorsListingScreen = ({ navigation }) => {
             <TouchableOpacity style={styles.listing}
               onPress={() => navigation.navigate('Tutor profile', { item })}>
               <MaterialCommunityIcons name="account-circle" size={60} color="#A7C7E7" />
+
               <View style={styles.text0}>
-                {/* <Text style={styles.text1}>{item.name}</Text> */}
-                <Highlight style={styles.text1} 
-                // fullText={item.name}></Highlight>
-                fullText={item.tutorName}></Highlight>
-                {/* <Text style={styles.text2}>Experience: {item.experience} yrs</Text> */}
-                <Text style={styles.text2}>Experience:
-                <Highlight style={styles.text2} 
-                fullText={item.experience} ></Highlight> yrs</Text>
+                <Highlight style={styles.text1}
+                  fullText={item.tutorName}></Highlight>
+                <Text style={styles.text2}>Subject:&nbsp;
+                  <Highlight style={styles.text2}
+                    fullText={item.subject} ></Highlight></Text>
+                <Text style={styles.text2}>Experience:&nbsp;
+                  <Highlight style={styles.text2}
+                    fullText={item.experience} ></Highlight> yrs</Text>
               </View>
-              {/* <Text style={styles.price}>${item.hourlyRate}</Text> */}
-               <Text style={styles.price}>$
-              <Highlight style={styles.price} 
-                fullText={item.hourlyRate}></Highlight></Text>
+              <Text style={styles.price}>$
+                <Highlight style={styles.price}
+                  fullText={item.hourlyRate}></Highlight></Text>
+
             </TouchableOpacity>
           )}
           ListEmptyComponent={myListEmpty}
