@@ -5,26 +5,62 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
+import API from '../config/api.js'
 import * as ImagePicker from 'expo-image-picker'
 import styles from '../styles/userProfile.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export const UserProfileScreen = ({ navigation, route }) => {
   const [image, setImage] = useState(null)
+  const [user, setUser] = useState()
 
   const pickImage = async () => {
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 1
     });
 
     console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(result.uri)
+      console.log(result.uri)
     }
+    
+    const formData = new FormData();
+      formData.append('profile_img', {
+        uri: result.uri,
+        type: 'image/jpeg || image/png || image/jpg || image/gif',
+        name: 'image.jpg || image.png || image.gif || image.jpeg'
+      })
+
+    // get user id
+    const userId = route.params.userId
+    console.log(userId)
+
+    //post image to server
+    API.post('/protected/user/updateProfile_img/' + userId, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+      .then(function (response) {
+        //console.log(response.data.data);
+        setImage(response.data.data.profile_img)
+        console.log(response.data.data.profile_img)
+      })
+      .catch((e) => (console.log(e)))
+
+    // get image from server
+    API.get('/general/user/profile_img/' + userId)
+      .then(function (response) {
+        //console.log(response.data.data);
+        setImage(response.data.data.profile_img)
+      })
+      .catch((e) => (console.log(e)))
   }
 
   return (

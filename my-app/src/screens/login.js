@@ -21,35 +21,46 @@ export const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
 
-      // await API
-      //   .post ('/login', {
-      //     email: email, 
-      //     password: password,
-      //   })
-      //   .then (res => {
+
+    await API
+      .post ('/login', {
+        email: email, 
+        password: password,
+      })
+      .then (res => {
 
 
-      //     console.log(res.data);
+        console.log(res.data);
 
-      //     if (res.data.status == "200") {
-            navigation.navigate( 'Tabs', { screen:'Welcome', params:{email:email}});
-        //     console.log(res.message);
-        //   }
-        // })
-        // .catch (e => {
 
-        //   // Check if email or password is empty
-        //   if (e.response.status == "500") {
-        //     const message = JSON.stringify(e.response.data.message);
-        //     alert(`${message}`);
-        //   }
+        if (res.data.status == "200") {
+          navigation.navigate( 'Tabs', { 
+            screen:'Welcome', 
+            
+            params:{ 
+              screen: 'My profile',
+              username: res.data.data.username, 
+              userId: res.data.data.id
+            }
+          });
+          console.log(res.data.data.username, res.data.data.id);
+        }
+      })
+      .catch (e => {
 
-        //   // Check if email exist in database
-        //   if (e.response.status == "401") {
-        //     const message = JSON.stringify(e.response.data.message);
-        //     alert(`${message}`);
-        //   }
-        // });
+        // Check if email or password is empty
+        if (e.response.status == "500") {
+          const message = JSON.stringify(e.response.data.message);
+          alert(`${message}`);
+        }
+
+        // Check if email exist in database
+        if (e.response.status == "401") {
+          const message = JSON.stringify(e.response.data.message);
+          alert(`${message}`);
+        }
+      });
+
   };
 
   const handleForgetPassword = () => {
