@@ -77,6 +77,10 @@ export const LoginScreen = ({ navigation }) => {
                 onPress = { handleForgetPassword }
                 text = "Forget password?"
               />
+              <CustomFlatButton 
+                onPress = {() => navigation.navigate( 'Sign Up' )}
+                text = "New user?"
+              />
               <CustomButton 
                 onPress = { handleLogin }
                 text = "Login"
