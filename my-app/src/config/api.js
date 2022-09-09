@@ -10,5 +10,10 @@ const API = axios.create({
 //     baseURL: "http://192.168.72.203:3000"
 // });
 
-// export default API;
+// const API = axios.create({
+//   baseURL: "http://192.168.18.8:3000"
+// });
+
+export default API;
+
 

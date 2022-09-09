@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { ActivityIndicator,ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
+import { ActivityIndicator,ScrollView, View, Text, FlatList, TouchableOpacity } from 'react-native'
 import styles from '../styles/welcomePage.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import API from '../config/api.js'
-
-
+import { useSelector, useDispatch } from 'react-redux'
 
 const StarReview = ({ rate }) => {
   let starComponents = [];
@@ -39,21 +38,25 @@ const StarReview = ({ rate }) => {
   )
 }
 
-
 export const WelcomeScreen = ({ navigation, route }) => {
 
   const [tutors, setTutors] = useState([])
   const [query, setQuery] = useState("")
   const [isLoading, setIsLoading] = useState(true);
 
+  const { username } = useSelector(state => state.userReducer)
+
   useEffect(() => {
     listTutors()
   }, [])
+  
 
   function listTutors() {
 
     API.get('/general/viewTutor')
       .then(function (response) {
+        
+        // console.log(response.data.data);
         setTutors(response.data.data);
         (setIsLoading(false))
       })
@@ -85,8 +88,8 @@ export const WelcomeScreen = ({ navigation, route }) => {
           <View style= { styles.usernameContainer }>            
             <Text 
               style = { styles.userName } >
-              { route.params.username }
-              { route.params.userId } 
+              {/* { route.params.username } */}
+              { username }
             </Text> 
           </View>         
         </View>

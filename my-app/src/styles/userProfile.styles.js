@@ -13,8 +13,8 @@ module.exports = StyleSheet.create ({
   },
   profileImg: {
     position: 'absolute',
-    height: height * 0.23,
-    width: width * 0.5,
+    height: height * 0.24,
+    width: width * 0.42,
     borderRadius: 100,
     resizeMode: 'contain'
   },

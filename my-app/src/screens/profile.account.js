@@ -9,15 +9,33 @@ import styles from '../styles/tutorProfile.styles.js'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export const ProfileAccountScreen = ({ navigation, route }) => {
+
+  const [image, setImage] = useState(null)
+
+  // GET user profile image from database
+  const userId = route.params.userId
+  console.log(userId)
+  API
+    .get(`/general/user/profile_img/${userId}`) 
+    .then(res => {
+      setImage(res.data.data.image)
+      console.log(res.data)
+    })
+
   return (
     <View style = { styles.container }>
       <View style = { styles.imgContainer }>
-        <MaterialCommunityIcons 
-          size = {210} 
-          name = "account-circle" 
-          color = "#A7C7E7" 
-          style = { styles.img } 
-        />
+        { image ? 
+          <Image source = { image }
+            style = { styles.img }/> : 
+          <MaterialCommunityIcons 
+            size = {210} 
+            name = "account-circle" 
+            color = "#A7C7E7" 
+            style = { styles.img }  
+          />
+        }
+        
       </View>
       <View style = { styles.texts }>
         <View style = { styles.text1 }>

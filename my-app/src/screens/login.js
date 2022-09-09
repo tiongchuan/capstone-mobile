@@ -7,40 +7,47 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import API from '../config/api.js';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import loginPic from '../assets/loginPic.jpg';
 import styles from '../styles/login.styles.js';
 import { CustomButton } from '../components/CustomButton.js';
 import { CustomTextInput } from '../components/CustomTextInput.js';
 import { CustomFlatButton } from '../components/CustomFlatButton.js';
+import { useSelector, useDispatch } from 'react-redux'
+import { setEmail, setPassword, setUserId, setUsername } from '../redux/actions.js';
 
 export const LoginScreen = ({ navigation }) => {
 
-  const [ email, setEmail ] = useState( null );
-  const [ password, setPassword ] = useState( null );
+  const { email, password, username, userId } = useSelector(state => state.userReducer)
+  const dispatch = useDispatch()
 
-  const handleLogin = async () => {
+  // const [ email, setEmail ] = useState( null );
+  // const [ password, setPassword ] = useState( null );
 
-    await API
+  const handleLogin = async() => {
+   
+      await API
       .post ('/login', {
-        email: email, 
-        password: password,
+        email: email,
+        password: password
       })
       .then (res => {
 
-        console.log(res.data);
-        console.log(res.data.data.username, res.data.data.id);
+        console.log(res.data)
+        dispatch(setUsername(res.data.data.username))
+        dispatch(setUserId(res.data.data.id))
+        console.log(username)
+        console.log(userId)
 
         if (res.data.status == "200") {
           navigation.navigate( 'Tabs', { 
-            screen:'Welcome', 
-            
-            params:{ 
-              username: res.data.data.username, 
-              userId: res.data.data.id
-            }
-          });
-          
+            screen: 'Welcome',
+            // params:{ 
+            // screen: 'My profile',
+            // username: res.data.data.username, 
+            // userId: res.data.data.id
+            // }
+          })
         }
       })
       .catch (e => {
@@ -57,6 +64,8 @@ export const LoginScreen = ({ navigation }) => {
           alert(`${message}`);
         }
       });
+    //}
+    
   };
 
   const handleForgetPassword = () => {
@@ -74,14 +83,15 @@ export const LoginScreen = ({ navigation }) => {
             <View style = { styles.inputContainer }>
               <CustomTextInput
                 placeholder = 'email' 
-                value = { email }
-                onChangeText = { setEmail }
+                 value = { email }
+                //onChangeText = { setEmail }
+                onChangeText = {( value ) => dispatch(setEmail(value)) }
               />
               <CustomTextInput 
                 placeholder = 'password'
                 value = { password }
-                onChangeText = { setPassword }
-                secureTextEntry
+                // onChangeText = { setPassword }
+                onChangeText = {( value ) => dispatch(setPassword(value))}
               />
               <CustomFlatButton 
                 onPress = { handleForgetPassword }
