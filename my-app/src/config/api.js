@@ -10,5 +10,9 @@ const API = axios.create({
 //     baseURL: "http://10.0.2.2:3000"
 // });
 
+// const API = axios.create({
+//   baseURL: "http://192.168.18.8:3000"
+// });
+
 export default API;
 

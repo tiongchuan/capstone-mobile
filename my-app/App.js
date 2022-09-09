@@ -13,6 +13,8 @@ import { UserProfileScreen } from './src/screens/userProfile'
 import { ProfileAccountScreen } from './src/screens/profile.account';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Provider } from 'react-redux'
+import Store from './src/redux/store'
 
 
 // import Tabs from './src/navigation/tabs';
@@ -73,24 +75,26 @@ const Stack = createNativeStackNavigator()
 export default function App() {
 
   return (
-    <NavigationContainer >
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-      >
+    <Provider store = { Store }>
+      <NavigationContainer >
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+        >
 
-        <Stack.Screen name = 'Home' component = { MainScreen } />
-        <Stack.Screen name = 'Sign Up' component = { SignUpScreen } />
-        <Stack.Screen name = 'Login' component = { LoginScreen } />
-        <Stack.Screen name = 'Tabs' component = { Tabs } />
-        {/* <Stack.Screen name = 'Welcome' component = { WelcomeScreen } /> */}
-        {/* <Stack.Screen name = 'My profile' component = { UserProfileScreen }/> */}
-        {/* <Stack.Screen name = 'Tutors' component = { TutorsListingScreen }/> */}
-        {/* <Stack.Screen name = 'My Activity' component = { MyActivityScreen }/> */}
-        <Stack.Screen name = 'Tutor profile' component = { TutorProfileScreen } />
-        <Stack.Screen name = 'Request Tutor' component = { RequestTutorScreen } />
-        <Stack.Screen name = 'Account' component = { ProfileAccountScreen }/>
-      </Stack.Navigator>
-      <StatusBar />
-    </NavigationContainer>
+          <Stack.Screen name = 'Home' component = { MainScreen } />
+          <Stack.Screen name = 'Sign Up' component = { SignUpScreen } />
+          <Stack.Screen name = 'Login' component = { LoginScreen } />
+          <Stack.Screen name = 'Tabs' component = { Tabs } />
+          {/* <Stack.Screen name = 'Welcome' component = { WelcomeScreen } /> */}
+          {/* <Stack.Screen name = 'My profile' component = { UserProfileScreen }/> */}
+          {/* <Stack.Screen name = 'Tutors' component = { TutorsListingScreen }/> */}
+          {/* <Stack.Screen name = 'My Activity' component = { MyActivityScreen }/> */}
+          <Stack.Screen name = 'Tutor profile' component = { TutorProfileScreen } />
+          <Stack.Screen name = 'Request Tutor' component = { RequestTutorScreen } />
+          <Stack.Screen name = 'Account' component = { ProfileAccountScreen }/>
+        </Stack.Navigator>
+        <StatusBar />
+      </NavigationContainer>
+    </Provider>
   )
 }

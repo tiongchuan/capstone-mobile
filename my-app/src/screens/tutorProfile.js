@@ -17,7 +17,7 @@ export const TutorProfileScreen = ({ navigation, route }) => {
       <View style = { styles.texts }>
         <View style = { styles.text1 }>
           <Text style = { styles.text }>Name</Text>
-          <Text style = { styles.text }>{route.params.item.name}</Text>
+          <Text style = { styles.text }>{route.params.item.tutorName}</Text>
         </View>
         <View style = { styles.text1}>
           <Text style = { styles.text }>Experience</Text>

@@ -11,7 +11,7 @@ module.exports = StyleSheet.create ({
     alignItems: 'center'
   },
   img: {
-    height: height * 0.23,
+    height: height * 0.3,
     width: width * 0.5,
     marginTop: height * 0.05,
     borderColor: 'gray',
