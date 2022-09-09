@@ -29,18 +29,18 @@ export const LoginScreen = ({ navigation }) => {
       .then (res => {
 
         console.log(res.data);
+        console.log(res.data.data.username, res.data.data.id);
 
         if (res.data.status == "200") {
           navigation.navigate( 'Tabs', { 
             screen:'Welcome', 
             
             params:{ 
-              screen: 'My profile',
               username: res.data.data.username, 
               userId: res.data.data.id
             }
           });
-          console.log(res.data.data.username, res.data.data.id);
+          
         }
       })
       .catch (e => {

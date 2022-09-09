@@ -17,7 +17,11 @@ export const TutorProfileScreen = ({ navigation, route }) => {
       <View style = { styles.texts }>
         <View style = { styles.text1 }>
           <Text style = { styles.text }>Name</Text>
-          <Text style = { styles.text }>{route.params.item.name}</Text>
+          <Text style = { styles.text }>{route.params.item.username}</Text>
+        </View>
+        <View style = { styles.text1 }>
+          <Text style = { styles.text }>Subject</Text>
+          <Text style = { styles.text }>{route.params.item.subject}</Text>
         </View>
         <View style = { styles.text1}>
           <Text style = { styles.text }>Experience</Text>
@@ -31,20 +35,22 @@ export const TutorProfileScreen = ({ navigation, route }) => {
           <Text style = { styles.text }>Highest Education</Text>
           <Text style = { styles.text }>{route.params.item.highestEducation}</Text>
         </View>
+        <View style = { styles.text1 }>
+          <Text style = { styles.text }>Testimony</Text>
+          <Text style = { styles.text }>{route.params.item.testimony}</Text>
+        </View>
       </View>
       <View style = { styles.btn }>
         <CustomButton 
           onPress = {() => 
             navigation.navigate( 
               'Request Tutor', 
-              { hourlyRate: route.params.item.hourlyRate,
-                name: route.params.item.name,
-                experience: route.params.item.experience,
-                highestEducation: route.params.item.highestEducation
+              { 
+                userId: route.params.userId,
+                tutorId: route.params.item.tutorId,
+                subjectId: route.params.item.subjectId,
+                hourlyRate: route.params.item.hourlyRate,
               },
-              // { name: route.params.item.name},
-              // { experience: route.params.item.experience},
-              // { highestEducation: route.params.item.highestEducation}
             )}
           text = "Request"
         />
