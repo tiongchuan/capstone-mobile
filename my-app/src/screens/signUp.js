@@ -24,14 +24,12 @@ export const SignUpScreen = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
 
-let profile
-if (isEnabled){
-  profile = 'user'
-} else {
- profile = 'tutor'
-}
-// console.log(profile);
-
+  let role
+  if (isEnabled){
+    role = 'student'
+  } else {
+    role = 'tutor'
+  }
 
   const handleSignUp =  async () => {
 
@@ -40,6 +38,7 @@ if (isEnabled){
       username: username,
       email: email, 
       password: password,
+      role: role
     })
     .then ( res => {     
       if ( res.data.status == "200" ) {

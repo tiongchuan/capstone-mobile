@@ -11,7 +11,6 @@ const StarReview = ({ rate }) => {
   let fullStar = Math.floor(rate);
   let noStar = Math.floor(5 - rate);
   let halfStar = 5 - fullStar - noStar;
-  // console.log(rate);
 
   for (let i = 0; i < fullStar; i++) {
     starComponents.push(
@@ -35,7 +34,6 @@ const StarReview = ({ rate }) => {
   }
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      {/* <Text>{rate}</Text> */}
       {starComponents}
     </View>
   )
@@ -56,7 +54,6 @@ export const WelcomeScreen = ({ navigation, route }) => {
 
     API.get('/general/viewTutor')
       .then(function (response) {
-        // console.log(response.data.data);
         setTutors(response.data.data);
         (setIsLoading(false))
       })
@@ -87,9 +84,9 @@ export const WelcomeScreen = ({ navigation, route }) => {
           <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />
           <View style= { styles.usernameContainer }>            
             <Text 
-              onPress={() => navigation.navigate( 'My profile', { userId: route.params.userId })}
               style = { styles.userName } >
               { route.params.username }
+              { route.params.userId } 
             </Text> 
           </View>         
         </View>
@@ -165,7 +162,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
             data={find(tutors).sort((a,b)=>b.rating - a.rating)}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.listing}
-                onPress={() => navigation.navigate('Tutor profile', { item })}
+                onPress={() => navigation.navigate('Tutor profile', { userId: route.params.userId, item })}
               >
                 <View style={styles.iconAndText}>
                   <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />
