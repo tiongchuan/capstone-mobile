@@ -10,7 +10,6 @@ const StarReview = ({ rate }) => {
   let fullStar = Math.floor(rate);
   let noStar = Math.floor(5 - rate);
   let halfStar = 5 - fullStar - noStar;
-  // console.log(rate);
 
   for (let i = 0; i < fullStar; i++) {
     starComponents.push(
@@ -34,7 +33,6 @@ const StarReview = ({ rate }) => {
   }
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      {/* <Text>{rate}</Text> */}
       {starComponents}
     </View>
   )
@@ -167,7 +165,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
             data={find(tutors).sort((a,b)=>b.rating - a.rating)}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.listing}
-                onPress={() => navigation.navigate('Tutor profile', { item })}
+                onPress={() => navigation.navigate('Tutor profile', { userId: route.params.userId, item })}
               >
                 <View style={styles.iconAndText}>
                   <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />

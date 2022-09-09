@@ -13,62 +13,79 @@ import { Calendar } from 'react-native-calendars';
 import styles from '../styles/requestTutor.styles.js';
 import SelectDropdown from 'react-native-select-dropdown';
 import { CustomButton } from '../components/CustomButton.js';
+import API from '../config/api.js';
 
 export const RequestTutorScreen = ({ navigation, route }) => {
 
   const [dayPress, setDayPress] = useState ()
   const [manageTimeSlot, setManageTimeSlot] = useState()
+  const [comments, setComments] = useState()
+
+  const userId = route.params.userId
+  console.log(userId);
+  const tutorId = route.params.tutorId
+  console.log(tutorId);
+  const subjectId = route.params.subjectId
+  console.log(subjectId);
 
   const handleAppointment = async() => {
     await API
       .put ('/protected/enrollment/add', {
-        enrollmentDate: bookingDate, 
-        bookingTime: bookingTime,
-        //tutor: tutor
+        userId: userId,
+        tutorId: tutorId,
+        subjectId: subjectId,
+        enrollmentDate: dayPress, 
+        comments: comments,
+        latestScore: 50,
+        bookingTime: manageTimeSlot,
       })
       .then (res => {
-        navigation.navigate( 'My Activity', {
-          date:date, 
-          time:time, 
-          tutor: route.params.tutor,
-          //itemLists: itemLists
-        })
-          console.log(res.message);
+        navigation.navigate( 'My Activity', { userId: route.params.userId })
+        console.log(res.message);
+      })
+      .catch (e => {
+        console.log(e);
       })
   }
 
   const onDayPress = ( day ) => {
-    const dateString = dayjs( day.dateString ).format( 'DD/MM/YYYY' )
+    const dateString = dayjs( day.dateString ).format( 'YYYY-MM-DD' )
     setDayPress( dateString )
     console.log( dateString )
   }
+
   const date = dayPress? dayPress.toString () : ''
+  
   const timeSlot = [
     '10:00 - 12:00',
     '13:00 - 15:00',
     '16:00 - 18:00',
     '19:00 - 21:00'
   ]
+
   const onSelectTimeSlot = ( selectedTimeSlot ) => {
-    const timeSlot = selectedTimeSlot
-      setManageTimeSlot( timeSlot )
+      setManageTimeSlot( selectedTimeSlot )
       console.log( selectedTimeSlot )
-    }
-  const time = manageTimeSlot? manageTimeSlot : ''
-  const pressConfirm = () => {
-    alert( `Class on ${date} ${time}` )
-    // setPopulate(prev => {
-    //   return {any:[...prev.any, ...prev.onDayPress]}
-    // })
-    console.log(`
-      ${route.params.name}
-      ${route.params.experience}
-      ${route.params.hourlyRate}
-      ${route.params.highestEducation}
-    `)
-    console.log(date, time)
-    navigation.navigate( 'My Activity' )
   }
+
+  const time = manageTimeSlot? manageTimeSlot : ''
+
+  const onComments = ( text ) => {
+    setComments( text )
+    console.log( text )
+  }
+
+  // const pressConfirm = () => {
+  //   alert( `Class on ${date} ${time}` )
+  //   console.log(`
+  //     userId: ${route.params.userId}
+  //     tutoId: ${route.params.tutorId}
+  //     subjectId: ${route.params.subjectId}
+  //   `)
+  //   console.log(date, time)
+  //   navigation.navigate( 'My Activity' )
+  // }
+
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -142,11 +159,11 @@ export const RequestTutorScreen = ({ navigation, route }) => {
               placeholder = "Additional Request..."
               multiline = { true }
               numberOfLines = { 5 }
-              onChangeText = {( text ) => { text }}/>
+              onChangeText = { onComments }/>
             </View>
             <View style = { styles.btnContainer }>
               <CustomButton 
-                onPress = { pressConfirm }
+                onPress = { handleAppointment }
                 text = "Confirm"
               />
             </View>
