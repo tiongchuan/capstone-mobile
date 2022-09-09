@@ -104,47 +104,47 @@ export const WelcomeScreen = ({ navigation, route }) => {
           <Text style={styles.text}>Popular</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="alphabetical" size={50} color={(query === 'english') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="alphabetical" size={50} color={(query === 'English') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('english') }} />
           <Text style={styles.text}>English</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="calculator-variant-outline" size={50} color={(query === 'maths') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="calculator-variant-outline" size={50} color={(query === 'Maths') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('maths') }} />
-          <Text style={styles.text}>Math</Text>
+          <Text style={styles.text}>Maths</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="atom" size={50} color={(query === 'science') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="atom" size={50} color={(query === 'Science') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('science') }} />
           <Text style={styles.text}>Science</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="camera-timer" size={50} color={(query === 'history') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="camera-timer" size={50} color={(query === 'History') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('history') }} />
           <Text style={styles.text}>History</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="ideogram-cjk-variant" size={50} color={(query === 'chinese') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="ideogram-cjk-variant" size={50} color={(query === 'Chinese') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('chinese') }} />
           <Text style={styles.text}>Chinese</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="creation" size={50} color={(query === 'art') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="creation" size={50} color={(query === 'Art') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('art') }} />
           <Text style={styles.text}>Art</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="earth" size={50} color={(query === 'geography') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="earth" size={50} color={(query === 'Geography') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('geography') }} />
           <Text style={styles.text}>Geography</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="flask" size={50} color={(query === 'chemistry') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="flask" size={50} color={(query === 'Chemistry') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('chemistry') }} />
           <Text style={styles.text}>Chemistry</Text>
         </View>
         <View style={styles.subject}>
-          <MaterialCommunityIcons name="mine" size={50} color={(query === 'biology') ? "black" : "#A7C7E7"}
+          <MaterialCommunityIcons name="mine" size={50} color={(query === 'Biology') ? "black" : "#A7C7E7"}
             onPress={() => { setQuery('biology') }} />
           <Text style={styles.text}>Biology</Text>
         </View>
