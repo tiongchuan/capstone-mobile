@@ -49,7 +49,7 @@ export const Onboarding = ({ navigation }) => {
             >
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate('Login')}
+              onPress={() => navigation.navigate('Tabs', {screen:'Welcome'})}
             ></TouchableOpacity>
             </ImageBackground>
             </View>

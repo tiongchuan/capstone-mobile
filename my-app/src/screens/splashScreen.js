@@ -10,10 +10,10 @@ export const StartingScreen = ({ navigation }) => {
     return (
       <View>
         <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('Login')}
-            >
-        <Image style = { styles.img } source = { companyLogo } />
+          style={styles.button}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <Image style = { styles.img } source = { companyLogo } />
         </TouchableOpacity>
       </View>
    )}

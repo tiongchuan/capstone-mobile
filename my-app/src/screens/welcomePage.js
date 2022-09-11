@@ -36,7 +36,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
         <View style = { styles.imgContainer }>
           <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />
           <View style= { styles.usernameContainer }>            
-            <Text style = { styles.userName } >{ route.params.email }</Text> 
+            <Text style = { styles.userName } >email</Text> 
           </View>         
         </View>
         <Text style = { styles.headerText }>Book a Tutor</Text>

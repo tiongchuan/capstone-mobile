@@ -14,7 +14,6 @@ import styles from '../styles/signUp.styles.js';
 import signUpPic from '../assets/signUpPic.png';
 import { CustomButton } from '../components/CustomButton.js';
 import { CustomTextInput } from '../components/CustomTextInput.js';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 export const SignUpScreen = ({ navigation }) => {
@@ -35,7 +34,7 @@ export const SignUpScreen = ({ navigation }) => {
     })
     .then ( res => {     
       if ( res.data.status == "200" ) {
-        navigation.navigate('Tabs', {screen:'Welcome', params:{email:email}});
+        navigation.navigate('Onboarding');
         console.log( res.data );
         console.log( "sign up successfully" );
       } 
@@ -63,8 +62,6 @@ export const SignUpScreen = ({ navigation }) => {
                 value = { name }
                 onChangeText = { setName } 
               />
-                {/* <MaterialCommunityIcons name="chevron-right" size={29} color="#D9D9D9" /> */}
-
               <CustomTextInput 
                 placeholder = 'Email' 
                 value = { email }
@@ -101,12 +98,8 @@ export const SignUpScreen = ({ navigation }) => {
                 />
               </View>
               <CustomButton 
-                // onPress = { handleSignUp }
-                // onPress = { handleSignUp }
-                onPress ={() => navigation.navigate('Onboarding')}
-                // onPress = {() => { this.handleSignUp(); this.navigation.navigate('Onboarding');}}
+                onPress = { handleSignUp }
                 text = "Sign Up"
-                // onPress{() => { this.functionOne(); this.functionTwo();}}
               />
 
             </View>
