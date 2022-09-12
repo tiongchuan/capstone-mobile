@@ -32,7 +32,10 @@ export const LoginScreen = ({ navigation }) => {
         password: password
       })
       .then (res => {
+<<<<<<< HEAD
+=======
 
+>>>>>>> 217d9f3aef520dbd4545060029a740ced6e2521d
         console.log(res.data)
         dispatch(setUsername(res.data.data.username))
         dispatch(setUserId(res.data.data.id))
