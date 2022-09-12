@@ -21,16 +21,17 @@ module.exports = StyleSheet.create({
     marginBottom: 10
   },
   profileImg: {
-    height: height * 0.08,
+    height: height * 0.10,
     width: width * 0.17,
     resizeMode: 'contain',
-    borderRadius: 200,
+    borderRadius: 100,
   },
-  img: {
-    height: height * 0.07,
-    width: width * 0.16,
-    resizeMode: 'contain'
-  },
+  // img: {
+  //   height: height * 0.07,
+  //   width: width * 0.16,
+  //   resizeMode: 'contain',
+  //   borderRadius: 200,
+  // },
   usernameContainer: {
     margin: 10,
     alignItems: 'center',

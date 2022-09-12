@@ -8,13 +8,13 @@ module.exports = StyleSheet.create ({
   },
   imgContainer: {  
     alignItems: 'center',
-    marginTop: height * 0.18,
-    marginBottom: height * 0.08
+    marginTop: height * 0.25,
+    marginBottom: height * 0.15
   },
   profileImg: {
     position: 'absolute',
-    height: height * 0.23,
-    width: width * 0.5,
+    height: height * 0.24,
+    width: width * 0.42,
     borderRadius: 100,
     resizeMode: 'contain'
   },

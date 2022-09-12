@@ -2,115 +2,237 @@ import React, { useEffect, useState } from 'react'
 import { 
   View, 
   Text, 
+  Alert,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native'
 import API from '../config/api.js'
 import * as ImagePicker from 'expo-image-picker'
 import styles from '../styles/userProfile.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useSelector, useDispatch } from 'react-redux'
+import { setImage, setGetImage } from '../redux/actions.js'
 
 
-export const UserProfileScreen = ({ navigation, route }) => {
-  const [image, setImage] = useState(null)
-  const [user, setUser] = useState()
-  const [singleFile, setSingleFile] = useState()
 
-//mycode
-  useEffect(()=>{
-    getImage()
-  },[])
-  const userId = 2
+export const UserProfileScreen =  ({ navigation, route }) => {
 
+
+  const { userId, image, getImage } = useSelector(state => state.userReducer)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    getProfileImage()
+  }, [])
+
+  // Image picker function 
   const pickImage = async () => {
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
 
-    console.log(result);
-    setSingleFile(result)
+//My Code
+//     let result = await ImagePicker.launchImageLibraryAsync({
+//       mediaTypes: ImagePicker.MediaTypeOptions.All,
+//       allowsEditing: true,
+//       aspect: [4, 3],
+//       quality: 1
+//     });
 
-    if (!result.cancelled) {
-      // setImage(result.uri)
-      console.log(result.uri)
-      //morecode
-    // }
+//     console.log(result);
+//     setSingleFile(result)
+
+//     if (!result.cancelled) {
+//       // setImage(result.uri)
+//       console.log(result.uri)
+//       //morecode
+//     // }
 
   
-    const formData = new FormData();
-      formData.append('profile_img', {
-        uri: result.uri,
-        type: 'image/jpeg || image/png || image/jpg || image/gif',
-        name: 'image.jpg || image.png || image.gif || image.jpeg',
-        // file: singleFile
+//     const formData = new FormData();
+//       formData.append('profile_img', {
+//         uri: result.uri,
+//         type: 'image/jpeg || image/png || image/jpg || image/gif',
+//         name: 'image.jpg || image.png || image.gif || image.jpeg',
+//         // file: singleFile
+//       })
+
+//     // get user id
+//     // const userId = route.params.userId
+//     console.log(formData);
+//     console.log(userId)
+
+//     //post image to server
+//     API.post('/protected/user/updateProfile_img/' + userId, formData, {
+//       // API.post('/protected/user/updateProfile_img/2', formData, {
+//       headers: {
+//         // Accept:'application/json',
+//         "Content-Type": "multipart/form-data; charset=utf-8"
+//       },
+//       // body: formData
+//     })
+//       .then(function (response) {
+//         //console.log(response.data.data);
+//         setImage(response.data.data.profile_img)
+//         // console.log(response.data.data.profile_img)
+//         console.log(response)
+//       })
+//       .catch((e) => (console.log(e)))
+
+//     // // get image from server
+//     // API.get('/general/user/profile_img/' + userId)
+//     //   .then(function (response) {
+//     //     //console.log(response.data.data);
+//     //     setImage(response.data.data.profile_img)
+//     //   })
+//     //   .catch((e) => (console.log(e)))
+//   }
+// }
+//   //mycode
+//   function getImage(){
+//     API.get('/general/user/profile_img/'+userId)
+//     .then(function (response) {
+//       // console.log(response.data.data);
+//       setImage(response.data.data)
+//       console.log(image);
+//     })
+//     .catch((e) => (console.log(e)))
+
+    // check if user has permission to access camera roll
+    const permissionStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (permissionStatus || Platform.OS !== 'android') {
+      Alert.alert(
+        'Upload Profile Image',
+        'Choose an option',
+        [
+          { text: 'Camera', onPress: () => openCamera() },
+          { text: 'Gallery', onPress: () => openGallery() },
+          { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
+        ]
+      ) 
+    }
+
+    // open camera
+    const openCamera = async () => {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
       })
 
-    // get user id
-    // const userId = route.params.userId
-    console.log(formData);
-    console.log(userId)
+      console.log(result)
+      
+      if (!result.cancelled) {
+        dispatch(setImage(result.uri))
+        console.log(result.uri)
+        uploadImage()
+        getProfileImage()
+      }
+    }
 
-    //post image to server
-    API.post('/protected/user/updateProfile_img/' + userId, formData, {
-      // API.post('/protected/user/updateProfile_img/2', formData, {
-      headers: {
-        // Accept:'application/json',
-        "Content-Type": "multipart/form-data; charset=utf-8"
-      },
-      // body: formData
-    })
-      .then(function (response) {
-        //console.log(response.data.data);
-        setImage(response.data.data.profile_img)
-        // console.log(response.data.data.profile_img)
-        console.log(response)
+    // open gallery
+    const openGallery = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
       })
-      .catch((e) => (console.log(e)))
 
-    // // get image from server
-    // API.get('/general/user/profile_img/' + userId)
-    //   .then(function (response) {
-    //     //console.log(response.data.data);
-    //     setImage(response.data.data.profile_img)
-    //   })
-    //   .catch((e) => (console.log(e)))
+      console.log(result)
+
+      if (!result.cancelled) {
+        dispatch(setImage(result.uri))
+        console.log(result.uri)
+        uploadImage()
+        getProfileImage()
+      } 
+    }
   }
-}
 
-  //mycode
-  function getImage(){
-    API.get('/general/user/profile_img/'+userId)
-    .then(function (response) {
-      // console.log(response.data.data);
-      setImage(response.data.data)
-      console.log(image);
+  // upload image to database
+  const uploadImage = async() => {
+    const formData = new FormData()
+    formData.append('profile_img', {
+      uri: image,
+      type: 'image/jpeg'||'image/png'||'image/jpg'||'image/gif',
+      name: 'image.jpg'||'image.png'||'image.gif'||'image.jpeg'
     })
-    .catch((e) => (console.log(e)))
+    console.log(formData._parts)
+  
+    await API
+      .post(`/protected/user/updateProfile_img/${userId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(res => {
+        console.log(res.data)
+        dispatch(setImage(res.data.data.profile_img))
+        Alert.alert(
+          'Success', 
+          'Profile image uploaded successfully',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') }
+          ]
+        )
+      })
+      .catch(err => {
+        console.log(err)
+        Alert.alert( 
+          'Error', 'Server error', 
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') }
+          ]
+        )
+      })
+      // .then(res => {
+      //   console.log(res.data)
+      // })
+      // .catch(err => {
+      //   console.log(err)
+      // })
+  }
+  
+   // get image from database
+   const getProfileImage = () => {
+    API
+      .get(`/general/user/profile_img/${userId}`) 
+      .then(res => {
+        dispatch(setGetImage(res.data.data.profile_img))
+        console.log('Get:', res.data.data.profile_img)
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   return (
-
+    <ScrollView>
     <View style = { styles.container }>
       <View  style = { styles.imgContainer }>
         <TouchableOpacity style = { styles.btn } onPress = { pickImage } >
-          <MaterialCommunityIcons 
-            style = { styles.img } 
-            name = "camera-plus" size = { 120 } 
-            color = "#A7C7E7" />
-            { image && <Image source = {{ uri: image }} style = { styles.profileImg }/>}
+          { getImage ?
+            <Image 
+              // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
+              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }}  
+              style = { styles.profileImg } /> :
+            <MaterialCommunityIcons 
+              name = 'camera-plus' 
+              size = { 120 } 
+              color = '#A7C7E7' /> 
+          } 
         </TouchableOpacity>
       </View>
       <View style = { styles.textContainer }>  
 
+//My Code
       {/* <Image source = {{ uri: 'http://localhost/Images/1662798783752Bean.png' }} style = {{width:'20%',height:'20%'}}/> */}
       <Image source = {{ uri: `http://localhost/${image}`}} style = {{width:'20%',height:'20%'}}/>
-
-
         {/* <TouchableOpacity onPress = {() => navigation.navigate('Account')}>
+
+//Mia Code
+        <TouchableOpacity onPress = {() => navigation.navigate('Account', {userId: route.params.userId})}>
           <View style = { styles.arrow }>
             <View style = { styles.icon }>
               <MaterialCommunityIcons name = "account-circle-outline" size = { 30 } color = "#A7C7E7" />
@@ -161,6 +283,7 @@ export const UserProfileScreen = ({ navigation, route }) => {
         </TouchableOpacity> */}
       </View>
     </View>
+    </ScrollView>
   )
 }
 

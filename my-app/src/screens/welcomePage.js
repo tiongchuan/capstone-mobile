@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react"
-import { ActivityIndicator, ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
+
+// import { ActivityIndicator, ScrollView, View, Text, Image, Button, TextInput, FlatList, OptionItem, Icon, TouchableOpacity, SafeAreaView, ImageStore } from 'react-native'
+
+import { 
+  View, 
+  Text, 
+  Image,
+  FlatList, 
+  ScrollView, 
+  TouchableOpacity, 
+  ActivityIndicator
+} from 'react-native'
+
 import styles from '../styles/welcomePage.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import API from '../config/api.js'
-
-
+import { useSelector, useDispatch } from 'react-redux'
+import { setImage, setGetImage } from '../redux/actions.js'
 
 const StarReview = ({ rate }) => {
   let starComponents = [];
   let fullStar = Math.floor(rate);
   let noStar = Math.floor(5 - rate);
   let halfStar = 5 - fullStar - noStar;
-  // console.log(rate);
 
   for (let i = 0; i < fullStar; i++) {
     starComponents.push(
@@ -35,12 +46,10 @@ const StarReview = ({ rate }) => {
   }
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      {/* <Text>{rate}</Text> */}
       {starComponents}
     </View>
   )
 }
-
 
 export const WelcomeScreen = ({ navigation, route }) => {
 
@@ -48,13 +57,32 @@ export const WelcomeScreen = ({ navigation, route }) => {
   const [query, setQuery] = useState("")
   const [isLoading, setIsLoading] = useState(true);
 
+  const { username, userId, image, getImage } = useSelector(state => state.userReducer)
+  const dispatch = useDispatch()
+
   useEffect(() => {
+    getProfileImage()
     listTutors()
   }, [])
+  
+  // get profile image
+  const getProfileImage = async () => {
+    await API
+      .get(`/general/user/profile_img/${userId}`) 
+      .then(res => {
+        dispatch(setGetImage(res.data.data.profile_img))
+        console.log('Get:', res.data.data.profile_img)
+      })
+      .catch(err => {
+        console.log(err)
+      }
+    )
+  }
 
   function listTutors() {
     API.get('/general/viewTutor')
       .then(function (response) {
+        
         // console.log(response.data.data);
         setTutors(response.data.data);
         (setIsLoading(false))
@@ -82,12 +110,17 @@ export const WelcomeScreen = ({ navigation, route }) => {
     <View style = { styles.container }>
       <View style = { styles.headerContainer } >
         <View style = { styles.imgContainer }>
-          <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />
+          { getImage ? 
+            <Image 
+              // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }} 
+              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }} 
+              style = { styles.profileImg } /> : 
+            <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />}
           <View style= { styles.usernameContainer }>            
             <Text 
-              onPress={() => navigation.navigate( 'My profile', { userId: route.params.userId })}
               style = { styles.userName } >
-              { route.params.username }
+              {/* { route.params.username } */}
+              { username }
             </Text> 
           </View>         
         </View>
@@ -151,35 +184,38 @@ export const WelcomeScreen = ({ navigation, route }) => {
       </ScrollView>
       </View>
 
+
+
 <View style={{flex:3}}>
-      {isLoading ?
-        <View
-          style={styles.spinner}>
-          <ActivityIndicator
-            size='large'
-            color='#A7C7E7'
-          />
-        </View> :
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={find(tutors).sort((a, b) => b.rating - a.rating)}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.listing}
-              onPress={() => navigation.navigate('Tutor profile', { item })}
-            >
-              <View style={styles.iconAndText}>
-                <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />
-                <View style={styles.texts}>
-                  <Text style={styles.text1}>{item.tutorName}</Text>
-                  <Text style={styles.text2}>${item.hourlyRate}/hr</Text>
+        {isLoading ?
+          <View
+            style={styles.spinner}>
+            <ActivityIndicator
+              size='large'
+              color='#A7C7E7'
+            />
+          </View> :
+          <FlatList
+            style={styles.listings}
+            showsVerticalScrollIndicator={false}
+            data={find(tutors).sort((a,b)=>b.rating - a.rating)}
+            renderItem={({ item }) => (
+              <TouchableOpacity style={styles.listing}
+                onPress={() => navigation.navigate('Tutor profile', { userId: route.params.userId, item })}
+              >
+                <View style={styles.iconAndText}>
+                  <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />
+                  <View style={styles.texts}>
+                    <Text style={styles.text1}>{item.tutorName}</Text>
+                    <Text style={styles.text2}>${item.hourlyRate}/hr</Text>
+                  </View>
                 </View>
-              </View>
-              {/* <Text style={styles.price}>{item.rating}/5</Text> */}
-              <StarReview rate={item.rating} />
-            </TouchableOpacity>
-          )}
-          ListEmptyComponent={myListEmpty}
-        />
+                {/* <Text style={styles.price}>{item.rating}/5</Text> */}
+                <StarReview rate={item.rating} />
+              </TouchableOpacity>
+            )}
+            ListEmptyComponent={myListEmpty}
+          />
         // </ScrollView>
       }</View>
 
