@@ -1,147 +1,156 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { 
   View, 
   Text, 
   Alert,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native'
 import API from '../config/api.js'
 import * as ImagePicker from 'expo-image-picker'
 import styles from '../styles/userProfile.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
-import { setImage } from '../redux/actions.js'
+import { setImage, setGetImage } from '../redux/actions.js'
 
-export const UserProfileScreen = ({ navigation, route }) => {
-  // const [image, setImage] = useState(null)
+export const UserProfileScreen =  ({ navigation, route }) => {
 
-  const { userId, image } = useSelector(state => state.userReducer)
+  const { userId, image, getImage } = useSelector(state => state.userReducer)
   const dispatch = useDispatch()
 
-  console.log(userId)
+  useEffect(() => {
+    getProfileImage()
+  }, [])
 
+  // Image picker function 
   const pickImage = async () => {
 
     // check if user has permission to access camera roll
-    // const permissionStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
-    //   if (permissionStatus || Platform.OS !== 'android') {
-    //     Alert.alert(
-    //       'Upload Profile Image',
-    //       'Choose an option',
-    //       [
-    //         { text: 'Camera', onPress: () => openCamera() },
-    //         { text: 'Gallery', onPress: () => openGallery() },
-    //         { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
-    //       ]
-    //     ) 
-    //   }
+    const permissionStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (permissionStatus || Platform.OS !== 'android') {
+      Alert.alert(
+        'Upload Profile Image',
+        'Choose an option',
+        [
+          { text: 'Camera', onPress: () => openCamera() },
+          { text: 'Gallery', onPress: () => openGallery() },
+          { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' }
+        ]
+      ) 
+    }
 
     // open camera
-    // const openCamera = async () => {
-    //   await ImagePicker.launchCameraAsync({
-    //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //     allowsEditing: true,
-    //     aspect: [4, 3],
-    //     quality: 1,
-    //   }).then(res => {
-    //     if (!res.cancelled) {
-    //       dispatch(setImage(res.uri))
-    //       console.log('Selected',res.uri)
-    //       imageUpload(image)
-    //     }
-    //   })
-    // }
+    const openCamera = async () => {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      })
 
-    //const openGallery = async () => {
-      // Check if user has permission to access camera roll
-      // const permissionStatus = ImagePicker.requestMediaLibraryPermissionsAsync()
-      // if (permissionStatus === 'granted') {
-        // Open gallery
-          await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        }).then (res => {
-          if (!res.cancelled) {
-            dispatch(setImage(res.uri))
-            console.log(res.uri)
-            //imageUpload(image)
-          }
-        })
-   //}
-
-    // const imageUpload = async () => {
-
-    //   const formData = new FormData();
-    //   formData.append('file',  {
-    //     uri: image,
-    //     type: 'image/jpeg'||'image/png'||'image/jpg'||'image/gif',
-    //     name: 'image.jpg'||'image.png'||'image.gif'||'image.jpeg',
-    //   })
-    //   console.log('formData: ', formData._parts)
-    //   console.log('image ', image)
-
-      //POST request to upload image to database 
-      // await API 
-      //   .post(`/protected/user/updateProfile_img/${userId}`, formData, {
-      //     body: formData,
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'multipart/form-data'
-      //     },
-      //   }) 
-      //   .then(res => {
-      //     console.log(res)
-      //     if ( res.data.status === 'success' ) {
-      //       dispatch(setImage(res.data.profile_img))
-      //       Alert.alert(
-      //         'Success', 
-      //         'Profile image uploaded successfully',
-      //         [
-      //           { text: 'OK', onPress: () => console.log('OK Pressed') }
-      //         ]
-      //       )
-      //     }
-      //   })
-        // .catch(e => {
-        //   if (e.response.status === 500) {
-        //     Alert.alert( 'Error', 'Server error', [
-        //       { text: 'OK', onPress: () => console.log('OK Pressed') }
-        //     ])
-        //   } else {
-        //     Alert.alert( 'Error', 'Something went wrong', [
-        //       { text: 'OK', onPress: () => console.log('OK Pressed') }
-        //     ])
-        //   }
-        // })
+      console.log(result)
       
+      if (!result.cancelled) {
+        dispatch(setImage(result.uri))
+        console.log(result.uri)
+        uploadImage()
+        getProfileImage()
+      }
+    }
 
-      // GET request to get image from database  
-    //   await API
-    //     .get(`/general/user/profile_img/${userId}`) 
-    //     .then(res => {
-    //       dispatch(setImage(res.data.data))
-    //       console.log('Get:',res.data.data)
-    //     })
-    //     .catch(e => {
-    //       const message = JSON.stringify(e.response.data.message);
-    //       alert(`${message}`);
-    //     })
-    // }
+    // open gallery
+    const openGallery = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      })
+
+      console.log(result)
+
+      if (!result.cancelled) {
+        dispatch(setImage(result.uri))
+        console.log(result.uri)
+        uploadImage()
+        getProfileImage()
+      } 
+    }
+  }
+
+  // upload image to database
+  const uploadImage = async() => {
+    const formData = new FormData()
+    formData.append('profile_img', {
+      uri: image,
+      type: 'image/jpeg'||'image/png'||'image/jpg'||'image/gif',
+      name: 'image.jpg'||'image.png'||'image.gif'||'image.jpeg'
+    })
+    console.log(formData._parts)
+  
+    await API
+      .post(`/protected/user/updateProfile_img/${userId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then(res => {
+        console.log(res.data)
+        dispatch(setImage(res.data.data.profile_img))
+        Alert.alert(
+          'Success', 
+          'Profile image uploaded successfully',
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') }
+          ]
+        )
+      })
+      .catch(err => {
+        console.log(err)
+        Alert.alert( 
+          'Error', 'Server error', 
+          [
+            { text: 'OK', onPress: () => console.log('OK Pressed') }
+          ]
+        )
+      })
+      // .then(res => {
+      //   console.log(res.data)
+      // })
+      // .catch(err => {
+      //   console.log(err)
+      // })
+  }
+  
+   // get image from database
+   const getProfileImage = () => {
+    API
+      .get(`/general/user/profile_img/${userId}`) 
+      .then(res => {
+        dispatch(setGetImage(res.data.data.profile_img))
+        console.log('Get:', res.data.data.profile_img)
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   return (
-
+    <ScrollView>
     <View style = { styles.container }>
       <View  style = { styles.imgContainer }>
         <TouchableOpacity style = { styles.btn } onPress = { pickImage } >
-          <MaterialCommunityIcons 
-            style = { styles.img } 
-            name = "camera-plus" size = { 120 } 
-            color = "#A7C7E7" />
-            { image && <Image source = {{ uri: image }} style = { styles.profileImg }/>}
+          { getImage ?
+            <Image 
+              // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
+              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }}  
+              style = { styles.profileImg } /> :
+            <MaterialCommunityIcons 
+              name = 'camera-plus' 
+              size = { 120 } 
+              color = '#A7C7E7' /> 
+          } 
         </TouchableOpacity>
       </View>
       <View style = { styles.textContainer }>  
@@ -196,5 +205,6 @@ export const UserProfileScreen = ({ navigation, route }) => {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   )
 }

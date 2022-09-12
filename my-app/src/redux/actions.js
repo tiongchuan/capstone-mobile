@@ -4,6 +4,7 @@ export const SET_USERNAME = 'SET_USERNAME';
 export const SET_USER_ID = 'SET_USER_ID';
 export const SET_TUTOR_ID = 'SET_TUTOR_ID';
 export const SET_IMAGE = 'SET_IMAGE';
+export const GET_IMAGE = 'GET_IMAGE';
 
 export const setEmail = email => dispatch => {
   dispatch({
@@ -47,5 +48,9 @@ export const setImage = image => dispatch => {
   });
 }
 
-
-
+export const setGetImage = getImage => dispatch => {
+  dispatch({
+    type: GET_IMAGE,
+    payload: getImage,
+  });
+}
