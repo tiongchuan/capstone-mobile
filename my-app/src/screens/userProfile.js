@@ -13,6 +13,7 @@ import styles from '../styles/userProfile.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
 import { setImage, setGetImage } from '../redux/actions.js'
+import { any } from 'prop-types'
 
 
 
@@ -22,13 +23,20 @@ export const UserProfileScreen =  ({ navigation, route }) => {
   const { userId, image, getImage } = useSelector(state => state.userReducer)
   const dispatch = useDispatch()
 
+  // useEffect(() => {
+  //   getProfileImage()
+  // }, [])
+
+  console.log('in userprofile', userId);
+  let getUserImage;
+  
   useEffect(() => {
-    getProfileImage()
+    getDatabaseImage()
   }, [])
 
-  useEffect(() => {
-    getProfileImage()
-  }, [image])
+  // useEffect(() => {
+  //   getProfileImage()
+  // }, [image])
 
   // Image picker function 
   const pickImage = async () => {
@@ -94,7 +102,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
       type: 'image/jpeg'||'image/png'||'image/jpg'||'image/gif',
       name: 'image.jpg'||'image.png'||'image.gif'||'image.jpeg'
     })
-    console.log(formData._parts)
+    console.log('formDataParts in my append',formData._parts)
   
     await API
       .post(`/protected/user/updateProfile_img/${userId}`, formData, {
@@ -103,13 +111,13 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         }
       })
       .then(res => {
-        console.log(res.data)
+        console.log('in image formdata psot:',res.data)
         dispatch(setImage(res.data.data.profile_img))
         Alert.alert(
           'Success', 
           'Profile image uploaded successfully',
           [
-            { text: 'OK', onPress: () => console.log('OK Pressed') }
+            { text: 'OK', onPress: () => console.log('OK Pressed image uploaded') }
           ]
         )
       })
@@ -118,26 +126,49 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         Alert.alert( 
           'Error', 'Server error', 
           [
-            { text: 'OK', onPress: () => console.log('OK Pressed') }
+            { text: 'OK', onPress: () => console.log('OK Pressed but server error') }
           ]
         )
       })
   }
   
    // get image from database
-   const getProfileImage = () => {
-    API
+  //  const getProfileImage = () => {
+  //   API
+  //     .get(`/general/user/profile_img/${userId}`) 
+  //     .then(res => {
+  //       // dispatch(setGetImage(res.data.data.profile_img))
+  //       console.log('Get:', res)
+  //       dispatch(setImage(res.data.data.profile_img))
+  //       console.log('in getProfileImage:', res.data.data.profile_img)
+  //     })
+  //     .catch(e => {
+  //       console.log(e)
+  //     })
+  // }
+
+  const getDatabaseImage = async () => {
+    console.log("inGetDataBaseImage",userId);
+    await API
       .get(`/general/user/profile_img/${userId}`) 
       .then(res => {
+        console.log(res.data.data.profile_image)
         // dispatch(setGetImage(res.data.data.profile_img))
-        console.log('Get:', res)
+        console.log('Get my response:', res)
+        console.log('in getDatabaseImage res:', res.data.data.profile_img)
         dispatch(setImage(res.data.data.profile_img))
-        // console.log('Get:', res.data.data.profile_img)
+        console.log('in setImage:', image);
+        // getUserImage = (res.data.data.profile_img)
+        // console.log('in setImage:', getUserImage);
       })
       .catch(e => {
         console.log(e)
       })
   }
+
+  // // dispatch(setGetImage(getUserImage))
+  // dispatch(setImage(getUserImage))
+  // console.log('in redux setImage:', image);
 
   return (
     <ScrollView>
@@ -147,7 +178,8 @@ export const UserProfileScreen =  ({ navigation, route }) => {
           { getImage ?
             <Image 
               // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
-              source = {{ uri: `http://localhost/Images/${getImage}` }}  
+              // source = {{ uri: `http://192.168.1.25/Images/${getImage}` }}  
+              source = {{ uri: `http://192.168.1.25/Images/${image}` }}  
               style = { styles.profileImg } /> :
             <MaterialCommunityIcons 
               name = 'camera-plus' 
