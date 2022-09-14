@@ -1,10 +1,10 @@
 import axios from "axios";
 
 
-// // Heroku
-// const API = axios.create({
-//     baseURL: "https://quiet-river-74601.herokuapp.com"
-// });
+// Heroku
+const API = axios.create({
+    baseURL: "https://quiet-river-74601.herokuapp.com"
+});
 
 // // Localhost
 // const API = axios.create({
@@ -12,10 +12,10 @@ import axios from "axios";
 // });
 
 
-const API = axios.create({
-    // baseURL: "http://localhost:3000"
-  
-});
+// const API = axios.create({
+//     // baseURL: "http://localhost:3000"
+//      baseURL: "http://:3000"
+// });
 
 
 

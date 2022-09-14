@@ -26,76 +26,12 @@ export const UserProfileScreen =  ({ navigation, route }) => {
     getProfileImage()
   }, [])
 
+  useEffect(() => {
+    getProfileImage()
+  }, [image])
+
   // Image picker function 
   const pickImage = async () => {
-
-
-//My Code
-//     let result = await ImagePicker.launchImageLibraryAsync({
-//       mediaTypes: ImagePicker.MediaTypeOptions.All,
-//       allowsEditing: true,
-//       aspect: [4, 3],
-//       quality: 1
-//     });
-
-//     console.log(result);
-//     setSingleFile(result)
-
-//     if (!result.cancelled) {
-//       // setImage(result.uri)
-//       console.log(result.uri)
-//       //morecode
-//     // }
-
-  
-//     const formData = new FormData();
-//       formData.append('profile_img', {
-//         uri: result.uri,
-//         type: 'image/jpeg || image/png || image/jpg || image/gif',
-//         name: 'image.jpg || image.png || image.gif || image.jpeg',
-//         // file: singleFile
-//       })
-
-//     // get user id
-//     // const userId = route.params.userId
-//     console.log(formData);
-//     console.log(userId)
-
-//     //post image to server
-//     API.post('/protected/user/updateProfile_img/' + userId, formData, {
-//       // API.post('/protected/user/updateProfile_img/2', formData, {
-//       headers: {
-//         // Accept:'application/json',
-//         "Content-Type": "multipart/form-data; charset=utf-8"
-//       },
-//       // body: formData
-//     })
-//       .then(function (response) {
-//         //console.log(response.data.data);
-//         setImage(response.data.data.profile_img)
-//         // console.log(response.data.data.profile_img)
-//         console.log(response)
-//       })
-//       .catch((e) => (console.log(e)))
-
-//     // // get image from server
-//     // API.get('/general/user/profile_img/' + userId)
-//     //   .then(function (response) {
-//     //     //console.log(response.data.data);
-//     //     setImage(response.data.data.profile_img)
-//     //   })
-//     //   .catch((e) => (console.log(e)))
-//   }
-// }
-//   //mycode
-//   function getImage(){
-//     API.get('/general/user/profile_img/'+userId)
-//     .then(function (response) {
-//       // console.log(response.data.data);
-//       setImage(response.data.data)
-//       console.log(image);
-//     })
-//     .catch((e) => (console.log(e)))
 
     // check if user has permission to access camera roll
     const permissionStatus = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -126,7 +62,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         dispatch(setImage(result.uri))
         console.log(result.uri)
         uploadImage()
-        getProfileImage()
+        // getProfileImage()
       }
     }
 
@@ -145,7 +81,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         dispatch(setImage(result.uri))
         console.log(result.uri)
         uploadImage()
-        getProfileImage()
+        // getProfileImage()
       } 
     }
   }
@@ -186,12 +122,6 @@ export const UserProfileScreen =  ({ navigation, route }) => {
           ]
         )
       })
-      // .then(res => {
-      //   console.log(res.data)
-      // })
-      // .catch(err => {
-      //   console.log(err)
-      // })
   }
   
    // get image from database
@@ -199,8 +129,10 @@ export const UserProfileScreen =  ({ navigation, route }) => {
     API
       .get(`/general/user/profile_img/${userId}`) 
       .then(res => {
-        dispatch(setGetImage(res.data.data.profile_img))
-        console.log('Get:', res.data.data.profile_img)
+        // dispatch(setGetImage(res.data.data.profile_img))
+        console.log('Get:', res)
+        dispatch(setImage(res.data.data.profile_img))
+        // console.log('Get:', res.data.data.profile_img)
       })
       .catch(e => {
         console.log(e)
@@ -215,7 +147,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
           { getImage ?
             <Image 
               // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
-              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }}  
+              source = {{ uri: `http://localhost/Images/${getImage}` }}  
               style = { styles.profileImg } /> :
             <MaterialCommunityIcons 
               name = 'camera-plus' 
@@ -226,12 +158,12 @@ export const UserProfileScreen =  ({ navigation, route }) => {
       </View>
       <View style = { styles.textContainer }>  
 
-//My Code
-      {/* <Image source = {{ uri: 'http://localhost/Images/1662798783752Bean.png' }} style = {{width:'20%',height:'20%'}}/> */}
+ {/* my code */}
+      {/* <Image source = {{ uri: 'http://localhost/Images/1662798783752Bean.png' }} style = {{width:'20%',height:'20%'}}/>
       <Image source = {{ uri: `http://localhost/${image}`}} style = {{width:'20%',height:'20%'}}/>
-        {/* <TouchableOpacity onPress = {() => navigation.navigate('Account')}>
+          <TouchableOpacity onPress = {() => navigation.navigate('Account')}>  */}
 
-//Mia Code
+{/* //Mia Code */}
         <TouchableOpacity onPress = {() => navigation.navigate('Account', {userId: route.params.userId})}>
           <View style = { styles.arrow }>
             <View style = { styles.icon }>
@@ -280,7 +212,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
             </View>
             <MaterialCommunityIcons name = "chevron-right" size = { 29 } color = "#D9D9D9" />
           </View>
-        </TouchableOpacity> */}
+        </TouchableOpacity> 
       </View>
     </View>
     </ScrollView>

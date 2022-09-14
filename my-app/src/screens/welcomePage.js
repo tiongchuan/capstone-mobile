@@ -64,6 +64,8 @@ export const WelcomeScreen = ({ navigation, route }) => {
     getProfileImage()
     listTutors()
   }, [])
+
+  console.log('welcomepage',userId);
   
   // get profile image
   const getProfileImage = async () => {
@@ -113,7 +115,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
           { getImage ? 
             <Image 
               // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }} 
-              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }} 
+              source = {{ uri: `http://localhost/Images/${getImage}` }} 
               style = { styles.profileImg } /> : 
             <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />}
           <View style= { styles.usernameContainer }>            
