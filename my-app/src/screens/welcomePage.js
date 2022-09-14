@@ -22,22 +22,22 @@ const StarReview = ({ rate }) => {
 
   for (let i = 0; i < fullStar; i++) {
     starComponents.push(
-      <MaterialCommunityIcons name="star" key={`full-${i}`} size={20} />
+      <MaterialCommunityIcons color= "#5d779c" name="star" key={`full-${i}`} size={20} />
     )
   }
   for (let i = 0; i < halfStar; i++) {
     let decimal = rate - fullStar;
     if (decimal < 0.25) {
-      starComponents.push(<MaterialCommunityIcons name="star-outline" key={`decimal-${i}`} size={20} />)
+      starComponents.push(<MaterialCommunityIcons color= "#5d779c" name="star-outline" key={`decimal-${i}`} size={20} />)
     } else if (decimal > 0.25 && decimal < 0.75) {
-      starComponents.push(<MaterialCommunityIcons name="star-half-full" key={`decimal-${i}`} size={20} />)
+      starComponents.push(<MaterialCommunityIcons  color= "#5d779c"name="star-half-full" key={`decimal-${i}`} size={20} />)
     } else {
-      starComponents.push(<MaterialCommunityIcons name="star" key={`decimal-${i}`} size={20} />)
+      starComponents.push(<MaterialCommunityIcons color= "#5d779c" name="star" key={`decimal-${i}`} size={20} />)
     }
   }
   for (let i = 0; i < noStar; i++) {
     starComponents.push(
-      <MaterialCommunityIcons name="star-outline" key={`empty-${i}`} size={20} />
+      <MaterialCommunityIcons color= "#5d779c" name="star-outline" key={`empty-${i}`} size={20} />
     )
   }
   return (
@@ -67,7 +67,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
       .get(`/general/user/profile_img/${userId}`) 
       .then(res => {
         dispatch(setGetImage(res.data.data.profile_img))
-        console.log('Get:', res.data.data.profile_img)
+        console.log('GET:', res.data.data.profile_img)
       })
       .catch(err => {
         console.log(err)
@@ -110,8 +110,8 @@ export const WelcomeScreen = ({ navigation, route }) => {
         <View style = { styles.imgContainer }>
           { getImage ? 
             <Image 
-              // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }} 
-              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }} 
+              source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }} 
+             // source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }} 
               style = { styles.profileImg } /> : 
             <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />}
           <View style= { styles.usernameContainer }>            
@@ -125,61 +125,62 @@ export const WelcomeScreen = ({ navigation, route }) => {
         <Text style={styles.headerText}>Book a Tutor</Text>
         <Text style={styles.headerText}>Anytime, Anywhere</Text>
       </View>
-
-      <ScrollView style={styles.subjects} horizontal={true} >
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="clipboard-text-outline" size={50} color={(query === '') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('') }}
-          />
-          <Text style={styles.text}>Popular</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="alphabetical" size={50} color={(query === 'english') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('english') }} />
-          <Text style={styles.text}>English</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="calculator-variant-outline" size={50} color={(query === 'maths') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('maths') }} />
-          <Text style={styles.text}>Math</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="atom" size={50} color={(query === 'science') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('science') }} />
-          <Text style={styles.text}>Science</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="camera-timer" size={50} color={(query === 'history') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('history') }} />
-          <Text style={styles.text}>History</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="ideogram-cjk-variant" size={50} color={(query === 'chinese') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('chinese') }} />
-          <Text style={styles.text}>Chinese</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="creation" size={50} color={(query === 'art') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('art') }} />
-          <Text style={styles.text}>Art</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="earth" size={50} color={(query === 'geography') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('geography') }} />
-          <Text style={styles.text}>Geography</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="flask" size={50} color={(query === 'chemistry') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('chemistry') }} />
-          <Text style={styles.text}>Chemistry</Text>
-        </View>
-        <View style={styles.subject}>
-          <MaterialCommunityIcons name="mine" size={50} color={(query === 'biology') ? "black" : "#A7C7E7"}
-            onPress={() => { setQuery('biology') }} />
-          <Text style={styles.text}>Biology</Text>
-        </View>
-      </ScrollView>
-
+      <View style = {{ flex: 1 }}>
+        <ScrollView style={styles.subjects} horizontal={true} >
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="clipboard-text-outline" size={50} color={(query === '') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('') }}
+            />
+            <Text style={styles.text}>Popular</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="alphabetical" size={50} color={(query === 'English') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('English') }} />
+            <Text style={styles.text}>English</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="calculator-variant-outline" size={50} color={(query === 'Maths') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('Maths') }} />
+            <Text style={styles.text}>Math</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="atom" size={50} color={(query === 'Science') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('Science') }} />
+            <Text style={styles.text}>Science</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="camera-timer" size={50} color={(query === 'History') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('History') }} />
+            <Text style={styles.text}>History</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="ideogram-cjk-variant" size={50} color={(query === 'Chinese') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('Chinese') }} />
+            <Text style={styles.text}>Chinese</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="creation" size={50} color={(query === 'Art') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('Art') }} />
+            <Text style={styles.text}>Art</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="earth" size={50} color={(query === 'Geography') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('Geography') }} />
+            <Text style={styles.text}>Geography</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="flask" size={50} color={(query === 'Chemistry') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('Chemistry') }} />
+            <Text style={styles.text}>Chemistry</Text>
+          </View>
+          <View style={styles.subject}>
+            <MaterialCommunityIcons name="mine" size={50} color={(query === 'Biology') ? "#5d779c" : "#A7C7E7"}
+              onPress={() => { setQuery('Biology') }} />
+            <Text style={styles.text}>Biology</Text>
+          </View>
+        </ScrollView>
+      </View>
+      <View style = {{ flex: 3 }}>
         {isLoading ?
           <View
             style={styles.spinner}>
@@ -210,7 +211,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
             ListEmptyComponent={myListEmpty}
           />
         }
-
+      </View>
     </View >
   )
 }

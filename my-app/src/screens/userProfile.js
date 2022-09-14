@@ -84,7 +84,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
     const formData = new FormData()
     formData.append('profile_img', {
       uri: image,
-      type: 'image/jpeg'||'image/png'||'image/jpg'||'image/gif',
+      type: 'image/png'||'image/jpeg'||'image/jpg'||'image/gif',
       name: 'image.jpg'||'image.png'||'image.gif'||'image.jpeg'
     })
     console.log(formData._parts)
@@ -96,8 +96,8 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         }
       })
       .then(res => {
-        console.log(res.data)
-        dispatch(setImage(res.data.data.profile_img))
+        console.log('POST:',  res.data.data.profile_img)
+        dispatch(setGetImage(res.data.data.profile_img))
         Alert.alert(
           'Success', 
           'Profile image uploaded successfully',
@@ -129,7 +129,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
       .get(`/general/user/profile_img/${userId}`) 
       .then(res => {
         dispatch(setGetImage(res.data.data.profile_img))
-        console.log('Get:', res.data.data.profile_img)
+        console.log('GET:', res.data.data.profile_img)
       })
       .catch(e => {
         console.log(e)
@@ -143,15 +143,16 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         <TouchableOpacity style = { styles.btn } onPress = { pickImage } >
           { getImage ?
             <Image 
-              // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
-              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }}  
-              style = { styles.profileImg } /> :
+              source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
+              // source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }}  
+              style = { styles.profileImg } 
+              /> :
             <MaterialCommunityIcons 
               name = 'camera-plus' 
               size = { 120 } 
               color = '#A7C7E7' /> 
-          } 
-        </TouchableOpacity>
+            }
+        </TouchableOpacity> 
       </View>
       <View style = { styles.textContainer }>  
         <TouchableOpacity onPress = {() => navigation.navigate('Account', {userId: route.params.userId})}>
