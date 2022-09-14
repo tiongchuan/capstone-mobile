@@ -44,6 +44,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
   const [query, setQuery] = useState("")
   const [isLoading, setIsLoading] = useState(true);
 
+  // get username
   const { username } = useSelector(state => state.userReducer)
 
   useEffect(() => {
@@ -87,10 +88,7 @@ export const WelcomeScreen = ({ navigation, route }) => {
           <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />
           <View style= { styles.usernameContainer }>            
             <Text 
-              style = { styles.userName } >
-              {/* { route.params.username } */}
-              { username }
-            </Text> 
+              style = { styles.userName } > { username } </Text> 
           </View>         
         </View>
         <Text style={styles.headerText}>Book a Tutor</Text>
@@ -165,7 +163,13 @@ export const WelcomeScreen = ({ navigation, route }) => {
             data={find(tutors).sort((a,b)=>b.rating - a.rating)}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.listing}
-                onPress={() => navigation.navigate('Tutor profile', { userId: route.params.userId, item })}
+                onPress={() => navigation.navigate(
+                  'Tutor profile', 
+                  { 
+                    userId: route.params.userId, 
+                    item 
+                  }
+                )}
               >
                 <View style={styles.iconAndText}>
                   <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />

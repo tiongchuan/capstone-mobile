@@ -10,21 +10,22 @@ import {
 } from 'react-native'
 import styles from '../styles/myActivity.styles';
 import API from '../config/api';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSelector, useDispatch } from 'react-redux';;
 
 export const MyActivityScreen = ({ navigation, route }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [bookings, setBookings] = useState([]);
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState("");
+
+  // get userId
+  // const { userId } = useSelector(state => state.userReducer)
+  const userId = route.params.userId
 
   useEffect(() => {
     listBookings()
   }, [])
-
-   // get user id
-   const userId = route.params.userId
-   console.log(userId)
 
   function listBookings() {
 
@@ -72,7 +73,7 @@ export const MyActivityScreen = ({ navigation, route }) => {
         <TextInput
           style={styles.search}
           // value={search}
-          placeholder='Search for bookings...'
+          placeholder='Search for my bookings...'
           underlineColorAndroid="transparent"
           onChangeText={(text) => {
             setQuery(text)
@@ -94,7 +95,7 @@ export const MyActivityScreen = ({ navigation, route }) => {
           data={find(bookings)}
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.listing}
-              onPress={() => navigation.navigate('myActivity', { userId: route.params.userId, item })}>
+              onPress={() => navigation.navigate('myActivity', { item })}>
                 
               <MaterialCommunityIcons name="account-circle" size={60} color="#A7C7E7" />
 

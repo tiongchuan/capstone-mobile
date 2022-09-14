@@ -13,7 +13,6 @@ import API from '../config/api.js'
 import styles from '../styles/tutorsListing.styles'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUserId } from '../redux/actions.js';
 
 export const TutorsListingScreen = ({ navigation, route }) => {
 
@@ -21,8 +20,8 @@ export const TutorsListingScreen = ({ navigation, route }) => {
   const [tutors, setTutors] = useState([]);
   const [query, setQuery] = useState("")
 
+  // get userId
   const { userId } = useSelector(state => state.userReducer)
-  const dispatch = useDispatch()
 
   console.log(userId);
 
@@ -34,7 +33,6 @@ export const TutorsListingScreen = ({ navigation, route }) => {
 
     API.get('/general/viewTutor')
       .then(function (response) {
-        // console.log(response.data.data);
         setTutors(response.data.data);
         (setIsLoading(false))
       })
@@ -99,7 +97,9 @@ export const TutorsListingScreen = ({ navigation, route }) => {
           data={find(tutors)}
           renderItem={({ item }) => (
             <TouchableOpacity style={styles.listing}
-              onPress={() => navigation.navigate('Tutor profile', { userId: route.params.userId, item })}>
+              onPress={() => navigation.navigate('Tutor profile', { 
+                // userId: route.params.userId, 
+                item })}>
               <MaterialCommunityIcons name="account-circle" size={60} color="#A7C7E7" />
 
               <View style={styles.text0}>

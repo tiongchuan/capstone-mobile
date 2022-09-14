@@ -4,23 +4,24 @@ const { height, width } = Dimensions.get( 'window' )
 
 module.exports = StyleSheet.create ({
   container: {
-    flex: 1,
+    flex: 3,
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
   },
   innerContainer: {
-    padding: 0,
-    height: height,
+    // padding: 0,
+    // height: height,
   },
   img: {
-    height: height / 3,
-    width: width * 0.85,
-    resizeMode: 'contain',
-    top: height * 0.05,
+    height: height,
+    width: width,
+    // resizeMode: 'fill',
+    // top: height * 0.1,
+    // flex: 1,
   },
   inputContainer: {
     alignItems: 'center',
-    top: height * 0.08,
+    top: height * 0.03,
   },
   toggle: {
     margin: 20,
@@ -28,9 +29,11 @@ module.exports = StyleSheet.create ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  toggleText: {
-    fontSize: 16,
-    marginRight: 25,
-    color: 'gray',
-  }, 
+  button: {
+    width: width,
+    height: height,
+    alignItems: 'center',
+    borderRadius: 10,
+    padding: 10,
+  },
 })

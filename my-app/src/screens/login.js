@@ -36,12 +36,9 @@ export const LoginScreen = ({ navigation }) => {
         console.log(res.data)
         dispatch(setUsername(res.data.data.username))
         dispatch(setUserId(res.data.data.id))
-        console.log(username)
-        console.log(userId)
 
         if (res.data.status == "200") {
-          navigation.navigate( 'Tabs', { 
-            screen: 'Welcome',
+          navigation.navigate( 'Tabs', { screen: 'Welcome', userId: res.data.data.id
             // params:{ 
             // screen: 'My profile',
             // username: res.data.data.username, 
@@ -72,6 +69,10 @@ export const LoginScreen = ({ navigation }) => {
     alert( "A reset password email had been sent to you" )
   }
 
+  const handleNewUser = () => {
+    navigation.navigate( 'Sign Up' )
+  }
+
   return (
     <ScrollView>
       <KeyboardAvoidingView 
@@ -96,6 +97,10 @@ export const LoginScreen = ({ navigation }) => {
               <CustomFlatButton 
                 onPress = { handleForgetPassword }
                 text = "Forget password?"
+              />
+              <CustomFlatButton 
+                onPress = { handleNewUser }
+                text = "New user?"
               />
               <CustomButton 
                 onPress = { handleLogin }

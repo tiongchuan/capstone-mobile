@@ -1,7 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { MainScreen } from './src/screens/mainPage'
+
+import { StartingScreen } from './src/screens/splashScreen';
+import { Onboarding } from './src/screens/onBoarding';
+import { MainScreen } from './src/screens/mainPage';
 import { SignUpScreen } from './src/screens/signUp';
 import { LoginScreen } from './src/screens/login';
 import { WelcomeScreen } from './src/screens/welcomePage';
@@ -80,13 +83,14 @@ export default function App() {
         <Stack.Navigator
           screenOptions={{ headerShown: false }}
         >
-
+          <Stack.Screen name = 'Start Screen' component = { StartingScreen } />
+          <Stack.Screen name= 'Onboarding' component = { Onboarding } />
           <Stack.Screen name = 'Home' component = { MainScreen } />
           <Stack.Screen name = 'Sign Up' component = { SignUpScreen } />
           <Stack.Screen name = 'Login' component = { LoginScreen } />
           <Stack.Screen name = 'Tabs' component = { Tabs } />
-          {/* <Stack.Screen name = 'Welcome' component = { WelcomeScreen } /> */}
-          {/* <Stack.Screen name = 'My profile' component = { UserProfileScreen }/> */}
+          <Stack.Screen name = 'Welcome' component = { WelcomeScreen } />
+          <Stack.Screen name = 'My profile' component = { UserProfileScreen }/>
           {/* <Stack.Screen name = 'Tutors' component = { TutorsListingScreen }/> */}
           {/* <Stack.Screen name = 'My Activity' component = { MyActivityScreen }/> */}
           <Stack.Screen name = 'Tutor profile' component = { TutorProfileScreen } />
@@ -96,5 +100,6 @@ export default function App() {
         <StatusBar />
       </NavigationContainer>
     </Provider>
+
   )
 }
