@@ -23,9 +23,9 @@ export const RequestTutorScreen = ({ navigation, route }) => {
   const [comments, setComments] = useState()
 
   // get userId
-  // const { userId } = useSelector(state => state.userReducer)
+  const { userId } = useSelector(state => state.userReducer)
 
-  const userId = route.params.userId
+  // const userId = route.params.userId
   console.log(userId);
   const tutorId = route.params.tutorId
   console.log(tutorId);

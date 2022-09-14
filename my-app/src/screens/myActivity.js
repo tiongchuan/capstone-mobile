@@ -30,7 +30,7 @@ export const MyActivityScreen = ({ navigation, route }) => {
 
   function listBookings() {
 
-    API.get('/general/viewEnrollment/' + userId)
+    API.get(`/general/viewEnrollment/${userId}`)
       .then(function (response) {
         console.log(response.data.data);
         setBookings(response.data.data);

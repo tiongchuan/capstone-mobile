@@ -36,57 +36,115 @@ export const SignUpScreen = ({ navigation }) => {
     role = 'tutor'
   }
   
-  let insertStudentId
+  let insertStudentId = "";
 
   const handleSignUp = async () => {
 
-    await API
-      .post('/register', {
-        username: username,
-        email: email,
-        password: password,
-        role: role
-      })
-      .then((res) => {
+  await API
+    .post ( '/register', {
+      username: username,
+      email: email, 
+      password: password,
+      role: role
+    })
+    .then (async res => {     
+
         console.log(res.data);
         console.log(res.data.data.id);
         insertStudentId = res.data.data.id
         console.log('setInsertStudentId:',insertStudentId);
-      })
-      .catch(e => {
-        // Check if email or password is empty
-        if (e.response.status == "500") {
-          const message = JSON.stringify(e.response.data.message);
-          alert(`${message}`);
-         }
-      })
 
-    console.log('signup bw API:', userId);
+      if ( res.data.status == "200" ) {
+  
+        await API
+        .put ( '/protected/student/add', {
+          userId: insertStudentId,
+          schoolId: 1, 
+          name: username,
+          parent: "OTC",
+          remarks: "weak in maths"
+        })
+        .then ( res => {
+          console.log( res.data );
+          if ( res.data.status == "200" ) {
+            console.log( "student added successfully" );
+          } 
+        })
+        .catch ( e => {
+          console.log(e);
+        });
 
-    await API
-      .put('/protected/student/add', {
-        userId: insertStudentId,
-        schoolId: 1,
-        name: username,
-        parent: "OTC",
-        remarks: "weak in maths"
-      })
-      .then(res => {
-        console.log(res.data);
-        if (res.data.status == "200") {
-          console.log("student added successfully");
-        }
-      })
-      .catch(e => {
-        console.log(e);
-      });
+        navigation.navigate('Onboarding');
+        console.log( "sign up successfully" );
 
-    navigation.navigate('Onboarding');
-    console.log("sign up successfully");
-    dispatch(setUserId(insertStudentId))
-    console.log("redux setUserId:",userId);
-  }
+        dispatch(setUserId(insertStudentId))
+        console.log("redux setUserId:",userId);
+
+      } 
+    })
+    .catch ( e => {
+      // Check if email or password is empty
+      if ( e.response.status == "500" ) {
+        const message = JSON.stringify( e.response.data.message );
+        alert( `${message}` );
+      }
+    
+    });
+
+  };
+
+
+  // const handleSignUp = async () => {
+
+  //   await API
+  //     .post('/register', {
+  //       username: username,
+  //       email: email,
+  //       password: password,
+  //       role: role
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       console.log(res.data.data.id);
+  //       insertStudentId = res.data.data.id
+  //       console.log('setInsertStudentId:',insertStudentId);
+  //     })
+  //     .catch(e => {
+  //       // Check if email or password is empty
+  //       if (e.response.status == "500") {
+  //         const message = JSON.stringify(e.response.data.message);
+  //         alert(`${message}`);
+  //        }
+  //     })
+
+  //   console.log('signup bw API:', userId);
+
+  //   await API
+  //     .put('/protected/student/add', {
+  //       userId: insertStudentId,
+  //       schoolId: 1,
+  //       name: username,
+  //       parent: "OTC",
+  //       remarks: "weak in maths"
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       if (res.data.status == "200") {
+  //         console.log("student added successfully");
+  //       }
+  //     })
+  //     .catch(e => {
+  //       console.log(e);
+  //     });
+
+  //   navigation.navigate('Onboarding');
+  //   console.log("sign up successfully");
+  //   dispatch(setUserId(insertStudentId))
+  //   console.log("redux setUserId:",userId);
+  // }
  
+
+
   return(
     <ScrollView>
       <KeyboardAvoidingView 
