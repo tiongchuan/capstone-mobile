@@ -178,7 +178,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
           { getImage ?
             <Image 
               // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
-              // source = {{ uri: `http://192.168.1.25/Images/${getImage}` }}  
+              // source = {{ uri: `http:///Images/${getImage}` }}  
               source = {{ uri: `http://192.168.1.25/Images/${image}` }}  
               style = { styles.profileImg } /> :
             <MaterialCommunityIcons 
