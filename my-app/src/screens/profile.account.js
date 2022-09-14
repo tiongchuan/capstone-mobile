@@ -35,8 +35,7 @@ export const ProfileAccountScreen = ({ navigation }) => {
       .get(`/general/viewStudent/${userId}`) 
       .then(res => {
         console.log('Res:', res.data)
-        console.log(res.data.data.studentName)
-        setStudent(res.data.data) 
+        setStudent(res.data.data[0]) 
       })
       .catch(err => {
         console.log(err)
@@ -66,6 +65,10 @@ export const ProfileAccountScreen = ({ navigation }) => {
           <Text style = { styles.text }>{ student.studentName }</Text>
         </View>
         <View style = { styles.text1}>
+          <Text style = { styles.text }>Email</Text>
+          <Text style = { styles.text }>{ student.email }</Text>
+        </View>
+        <View style = { styles.text1}>
           <Text style = { styles.text }>Parent</Text>
           <Text style = { styles.text }>{ student.parent }</Text>
         </View>
@@ -73,17 +76,6 @@ export const ProfileAccountScreen = ({ navigation }) => {
           <Text style = { styles.text }>Remarks</Text>
           <Text style = { styles.text }>{ student.remarks }</Text>
         </View>
-        <TouchableOpacity 
-          onPress = {() => navigation.navigate( 'Tabs', { screen: 'My profile' } )}>
-          <View style = { styles.text1 }>
-            <Text style = { styles.text }>Back</Text>
-            <MaterialCommunityIcons 
-              size = {29} 
-              name = "chevron-right" 
-              color = "#D9D9D9" 
-            />
-          </View>
-        </TouchableOpacity>
       </View>
     </View>
   )
