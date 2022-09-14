@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native'
 import styles from '../styles/tutorProfile.styles.js';
-import { CustomButton } from '../components/CustomButton.js'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { CustomButton } from '../components/CustomButton.js';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const TutorProfileScreen = ({ navigation, route }) => {
+
 
   return (
     <View style = { styles.container }>

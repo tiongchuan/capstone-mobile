@@ -13,13 +13,13 @@ module.exports = StyleSheet.create ({
     height: height,
   },
   img: {
-    height: height * 0.4,
+    height: height * 0.5,
     width: width * 0.85,
     resizeMode: 'contain',
     top: height * 0.06,
   },
   inputContainer: {
     alignItems: 'center',
-    top: height * 0.02,
+    top: height * 0.06,
   },
 })

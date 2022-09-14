@@ -5,7 +5,7 @@ import {
   SET_USER_ID, 
   SET_TUTOR_ID,
   SET_IMAGE,
-  GET_IMAGE,
+  GET_IMAGE
 } from "./actions";
 
 const initialState = {
@@ -15,7 +15,8 @@ const initialState = {
   userId: "",
   tutorId: "",
   image: "",
-  getImage: ""
+  getImage: "",
+  studentName: ""
 };
 
 export default function userReducer (state = initialState, action) {
@@ -55,7 +56,6 @@ export default function userReducer (state = initialState, action) {
         ...state,
         getImage: action.payload,
       };
-      
     default:
       return state;
   }

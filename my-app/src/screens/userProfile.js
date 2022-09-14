@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { 
   View, 
   Text, 
@@ -20,8 +20,12 @@ export const UserProfileScreen =  ({ navigation, route }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getProfileImage()
-  }, [])
+    console.log('This is upload function')
+    return () => {
+      console.log('This is unmount function')
+      uploadImage()
+    }
+  }, [image])
 
   // Image picker function 
   const pickImage = async () => {
@@ -53,9 +57,8 @@ export const UserProfileScreen =  ({ navigation, route }) => {
       
       if (!result.cancelled) {
         dispatch(setImage(result.uri))
-        console.log(result.uri)
+        //console.log(result.uri)
         uploadImage()
-        getProfileImage()
       }
     }
 
@@ -68,13 +71,12 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         quality: 1,
       })
 
-      console.log(result)
+      //console.log(result)
 
       if (!result.cancelled) {
         dispatch(setImage(result.uri))
         console.log(result.uri)
         uploadImage()
-        getProfileImage()
       } 
     }
   }
@@ -87,7 +89,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
       type: 'image/png'||'image/jpeg'||'image/jpg'||'image/gif',
       name: 'image.jpg'||'image.png'||'image.gif'||'image.jpeg'
     })
-    console.log(formData._parts)
+    //console.log(formData._parts)
   
     await API
       .post(`/protected/user/updateProfile_img/${userId}`, formData, {
@@ -96,36 +98,16 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         }
       })
       .then(res => {
+        //console.log(res.data)
         console.log('POST:',  res.data.data.profile_img)
         dispatch(setGetImage(res.data.data.profile_img))
-        Alert.alert(
-          'Success', 
-          'Profile image uploaded successfully',
-          [
-            { text: 'OK', onPress: () => console.log('OK Pressed') }
-          ]
-        )
       })
       .catch(err => {
         console.log(err)
-        Alert.alert( 
-          'Error', 'Server error', 
-          [
-            { text: 'OK', onPress: () => console.log('OK Pressed') }
-          ]
-        )
       })
-      // .then(res => {
-      //   console.log(res.data)
-      // })
-      // .catch(err => {
-      //   console.log(err)
-      // })
-  }
   
-   // get image from database
-   const getProfileImage = () => {
-    API
+    // get image from database
+    await API
       .get(`/general/user/profile_img/${userId}`) 
       .then(res => {
         dispatch(setGetImage(res.data.data.profile_img))
@@ -133,7 +115,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
       })
       .catch(e => {
         console.log(e)
-      })
+    })
   }
 
   return (
@@ -143,8 +125,8 @@ export const UserProfileScreen =  ({ navigation, route }) => {
         <TouchableOpacity style = { styles.btn } onPress = { pickImage } >
           { getImage ?
             <Image 
-              source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
-              // source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }}  
+              // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }}  
+               source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }}  
               style = { styles.profileImg } 
               /> :
             <MaterialCommunityIcons 
@@ -195,7 +177,7 @@ export const UserProfileScreen =  ({ navigation, route }) => {
             <MaterialCommunityIcons name = "chevron-right" size = { 29 } color = "#D9D9D9" />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress = {() => navigation.navigate('Home')}>
+        <TouchableOpacity onPress = {() => navigation.navigate('Login')}>
           <View style = { styles.arrow }>
             <View style = { styles.icon }>
               <MaterialCommunityIcons name = "exit-to-app" size = { 30 } color = "#A7C7E7" />

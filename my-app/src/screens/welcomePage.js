@@ -87,7 +87,6 @@ export const WelcomeScreen = ({ navigation, route }) => {
       .catch((e) => (console.log(e)))
   }
 
-
   const find = (tutors) => {
     return tutors.filter((item) =>
       String(item.subject).includes(query)
@@ -110,16 +109,13 @@ export const WelcomeScreen = ({ navigation, route }) => {
         <View style = { styles.imgContainer }>
           { getImage ? 
             <Image 
-              source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }} 
-             // source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }} 
+              // source = {{ uri: `https://quiet-river-74601.herokuapp.com/Images/${getImage}` }} 
+              source = {{ uri: `http://192.168.18.8:3000/Images/${getImage}` }} 
               style = { styles.profileImg } /> : 
             <MaterialCommunityIcons name="account-circle" size = { 80 } color = "#FFFFFF" />}
           <View style= { styles.usernameContainer }>            
             <Text 
-              style = { styles.userName } >
-              {/* { route.params.username } */}
-              { username }
-            </Text> 
+              style = { styles.userName } > { username } </Text> 
           </View>         
         </View>
         <Text style={styles.headerText}>Book a Tutor</Text>
@@ -195,7 +191,13 @@ export const WelcomeScreen = ({ navigation, route }) => {
             data={find(tutors).sort((a,b)=>b.rating - a.rating)}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.listing}
-                onPress={() => navigation.navigate('Tutor profile', { userId: route.params.userId, item })}
+                onPress={() => navigation.navigate(
+                  'Tutor profile', 
+                  { 
+                    userId: route.params.userId, 
+                    item 
+                  }
+                )}
               >
                 <View style={styles.iconAndText}>
                   <MaterialCommunityIcons name="account-circle" size={50} color="#A7C7E7" />

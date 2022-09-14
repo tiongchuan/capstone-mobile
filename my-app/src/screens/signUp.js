@@ -7,22 +7,27 @@ import {
   KeyboardAvoidingView, 
   TouchableWithoutFeedback,
   } from 'react-native';
-  import API from '../config/api.js';
+import API from '../config/api.js';
 import React, { useState } from 'react';
 import { Switch } from 'react-native-switch';
 import styles from '../styles/signUp.styles.js';
-import signUpPic from '../assets/signUpPic.jpg';
+import signUpPic from '../assets/signUpPic.png';
 import { CustomButton } from '../components/CustomButton.js';
 import { CustomTextInput } from '../components/CustomTextInput.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { setEmail, setPassword, setUserId, setUsername } from '../redux/actions.js';
 
 export const SignUpScreen = ({ navigation }) => {
   
-  const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  // const [username, setUsername] = useState(null);
+  // const [email, setEmail] = useState(null);
+  // const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
+
+  const { userId, username, email, password } = useSelector(state => state.userReducer)
+  const dispatch = useDispatch()
 
   let role
   if (isEnabled){
@@ -30,37 +35,63 @@ export const SignUpScreen = ({ navigation }) => {
   } else {
     role = 'tutor'
   }
+  
+  let insertStudentId
 
-  const handleSignUp =  async () => {
+  const handleSignUp = async () => {
 
     await API
-    .post ( '/register', {
-      username: username,
-      email: email, 
-      password: password,
-      role: role
-    })
-    .then ( res => {     
-      if ( res.data.status == "200" ) {
-        navigation.navigate('Tabs', {screen:'Welcome', params:{username:res.data.data.username}});
-        console.log( res.data );
-        console.log( "sign up successfully" );
-      } 
-    })
-    .catch ( e => {
-      // Check if email or password is empty
-      if ( e.response.status == "500" ) {
-        const message = JSON.stringify( e.response.data.message );
-        alert( `${message}` );
-      }
-    });
-  };
+      .post('/register', {
+        username: username,
+        email: email,
+        password: password,
+        role: role
+      })
+      .then((res) => {
+        console.log(res.data);
+        console.log(res.data.data.id);
+        insertStudentId = res.data.data.id
+        console.log('setInsertStudentId:',insertStudentId);
+      })
+      .catch(e => {
+        // Check if email or password is empty
+        if (e.response.status == "500") {
+          const message = JSON.stringify(e.response.data.message);
+          alert(`${message}`);
+         }
+      })
 
+    console.log('signup bw API:', userId);
+
+    await API
+      .put('/protected/student/add', {
+        userId: insertStudentId,
+        schoolId: 1,
+        name: username,
+        parent: "OTC",
+        remarks: "weak in maths"
+      })
+      .then(res => {
+        console.log(res.data);
+        if (res.data.status == "200") {
+          console.log("student added successfully");
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+
+    navigation.navigate('Onboarding');
+    console.log("sign up successfully");
+    dispatch(setUserId(insertStudentId))
+    console.log("redux setUserId:",userId);
+  }
+ 
   return(
     <ScrollView>
       <KeyboardAvoidingView 
         style = { styles.container } 
-        behavior= { Platform.OS === "ios" ? "padding" : "height" }>
+        behavior= { Platform.OS === "ios" ? "padding" : null }>
         <TouchableWithoutFeedback onPress = { Keyboard.dismiss }>
           <View style = { styles.innerContainer }>
             <Image style = { styles.img } source = { signUpPic }/>
@@ -68,17 +99,21 @@ export const SignUpScreen = ({ navigation }) => {
               <CustomTextInput 
                 placeholder = 'Username'
                 value = { username }
-                onChangeText = { setUsername } 
+                // onChangeText = { setUsername } 
+                onChangeText = {( value ) => dispatch(setUsername(value)) }
               />
               <CustomTextInput 
                 placeholder = 'Email' 
                 value = { email }
-                onChangeText = { setEmail }
+                // onChangeText = { setEmail }
+                onChangeText = {( value ) => dispatch(setEmail(value)) }
                />
               <CustomTextInput
                 placeholder = 'Enter password' 
                 value = { password }
-                onChangeText = { setPassword } 
+                // onChangeText = { setPassword } 
+                onChangeText = {( value ) => dispatch(setPassword(value)) }
+                
               />
               <CustomTextInput
                 placeholder = 'Confirm password' 
@@ -109,6 +144,7 @@ export const SignUpScreen = ({ navigation }) => {
                 onPress = { handleSignUp }
                 text = "Sign Up"
               />
+
             </View>
           </View>
         </TouchableWithoutFeedback>

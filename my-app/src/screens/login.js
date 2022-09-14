@@ -7,8 +7,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import API from '../config/api.js';
-import React, { useState, useEffect } from 'react';
-import loginPic from '../assets/loginPic.jpg';
+import React from 'react';
+import loginPic from '../assets/LoginImage.png';
 import styles from '../styles/login.styles.js';
 import { CustomButton } from '../components/CustomButton.js';
 import { CustomTextInput } from '../components/CustomTextInput.js';
@@ -35,12 +35,10 @@ export const LoginScreen = ({ navigation }) => {
         console.log(res.data)
         dispatch(setUsername(res.data.data.username))
         dispatch(setUserId(res.data.data.id))
-        console.log(username)
-        console.log(userId)
 
         if (res.data.status == "200") {
-          navigation.navigate( 'Tabs', { 
-            screen: 'Welcome',
+          navigation.navigate( 'Tabs', { screen: 'Welcome', 
+            //userId: res.data.data.id
             // params:{ 
             // screen: 'My profile',
             // username: res.data.data.username, 
@@ -71,30 +69,40 @@ export const LoginScreen = ({ navigation }) => {
     alert( "A reset password email had been sent to you" )
   }
 
+  const handleNewUser = () => {
+    navigation.navigate( 'Sign Up' )
+  }
+
   return (
     <ScrollView>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView  
         style = { styles.container } 
-        behavior= { Platform.OS === "ios" ? "padding" : "height" }>
+        behavior= { Platform.OS === "ios" ? "padding" : null }>
         <TouchableWithoutFeedback onPress = { Keyboard.dismiss }>
           <View style = { styles.innerContainer }>
             <Image style = { styles.img } source = { loginPic }/>
             <View style = { styles.inputContainer }>
               <CustomTextInput
-                placeholder = 'email' 
-                 value = { email }
-                //onChangeText = { setEmail }
-                onChangeText = {( value ) => dispatch(setEmail(value)) }
+                placeholder='Email'
+                onChangeText={text => dispatch(setEmail(text))}
+                value={email}
+                keyboardType='email-address'
+                autoCapitalize='none'
+                autoCorrect={true}
               />
               <CustomTextInput 
-                placeholder = 'password'
-                value = { password }
-                // onChangeText = { setPassword }
-                onChangeText = {( value ) => dispatch(setPassword(value))}
+                placeholder='Password'
+                onChangeText={text => dispatch(setPassword(text))}
+                value={password}
+                secureTextEntry={true}
               />
               <CustomFlatButton 
                 onPress = { handleForgetPassword }
                 text = "Forget password?"
+              />
+              <CustomFlatButton 
+                onPress = { handleNewUser }
+                text = "New user?"
               />
               <CustomButton 
                 onPress = { handleLogin }

@@ -14,12 +14,16 @@ import styles from '../styles/requestTutor.styles.js';
 import SelectDropdown from 'react-native-select-dropdown';
 import { CustomButton } from '../components/CustomButton.js';
 import API from '../config/api.js';
+import { useSelector, useDispatch } from 'react-redux';
 
 export const RequestTutorScreen = ({ navigation, route }) => {
 
   const [dayPress, setDayPress] = useState ()
   const [manageTimeSlot, setManageTimeSlot] = useState()
   const [comments, setComments] = useState()
+
+  // get userId
+  // const { userId } = useSelector(state => state.userReducer)
 
   const userId = route.params.userId
   console.log(userId);
@@ -40,7 +44,12 @@ export const RequestTutorScreen = ({ navigation, route }) => {
         bookingTime: manageTimeSlot,
       })
       .then (res => {
-        navigation.navigate( 'My Activity', { userId: route.params.userId })
+        navigation.navigate( 
+          'My Activity', 
+          { 
+            userId: route.params.userId 
+          }
+        )
         console.log(res.message);
       })
       .catch (e => {
