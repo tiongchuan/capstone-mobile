@@ -33,37 +33,61 @@ export const SignUpScreen = ({ navigation }) => {
     role = 'tutor'
   }
   
-  let insertStudentId
+  let insertStudentId = "";
 
-  const handleSignUp = async() => {
-    if (password === confirmPassword){
-      await API.post('/register', {
-        username: username,
-        email: email,
-        password: password,
-        role: role
-      })
-      .then((response) => {
-        console.log(response.data)
-        insertStudentId = response.data.data.id
-        dispatch(setUserId(insertStudentId))
-        API.put('/protected/student/add', {
+  const handleSignUp = async () => {
+
+  await API
+    .post ( '/register', {
+      username: username,
+      email: email, 
+      password: password,
+      role: role
+    })
+    .then (async res => {     
+
+        console.log(res.data);
+        console.log(res.data.data.id);
+        insertStudentId = res.data.data.id
+        console.log('setInsertStudentId:',insertStudentId);
+
+      if ( res.data.status == "200" ) {
+  
+        await API
+        .put ( '/protected/student/add', {
           userId: insertStudentId,
-          schoolId: 1,
+          schoolId: 1, 
           name: username,
           parent: "OTC",
           remarks: "weak in maths"
-        }) 
-        .catch((error) => {
-          console.log(error)
         })
-        navigation.navigate('Onboarding')
-      })
-    } else {
-      alert('Password does not match')
-    }
-  }
- 
+        .then ( res => {
+          console.log( res.data );
+          if ( res.data.status == "200" ) {
+            console.log( "student added successfully" );
+          } 
+        })
+        .catch ( e => {
+          console.log(e);
+        });
+
+        navigation.navigate('Onboarding');
+        console.log( "sign up successfully" );
+
+        dispatch(setUserId(insertStudentId))
+        console.log("redux setUserId:",userId);
+
+      } 
+    })
+    .catch ( e => {
+      // Check if email or password is empty
+      if ( e.response.status == "500" ) {
+        const message = JSON.stringify( e.response.data.message );
+        alert( `${message}` );
+      }
+    });
+  };
+  
   return(
     <ScrollView>
       <KeyboardAvoidingView 

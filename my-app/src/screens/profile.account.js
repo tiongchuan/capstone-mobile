@@ -21,10 +21,10 @@ export const ProfileAccountScreen = () => {
   // get student profile
   const getStudentProfile = async () => {
     await API
-      .get( `/general/viewStudent/${userId}` ) 
-      .then( res => {
-        console.log ( 'Res:', res.data )
-        setStudent ( res.data.data[0]) 
+      .get(`/general/viewStudent/${userId}`) 
+      .then(res => {
+        console.log('Res:', res.data)
+        setStudent(res.data.data[0]) 
       })
       .catch( err => {
         console.log( err )
