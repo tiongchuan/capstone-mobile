@@ -6,71 +6,58 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-import API from '../config/api.js';
 import React from 'react';
-import loginPic from '../assets/LoginImage.png';
+import API from '../config/api.js';
 import styles from '../styles/login.styles.js';
+import loginPic from '../assets/LoginImage.png';
+import { useSelector, useDispatch } from 'react-redux'
 import { CustomButton } from '../components/CustomButton.js';
 import { CustomTextInput } from '../components/CustomTextInput.js';
 import { CustomFlatButton } from '../components/CustomFlatButton.js';
-import { useSelector, useDispatch } from 'react-redux'
 import { setEmail, setPassword, setUserId, setUsername } from '../redux/actions.js';
 
 export const LoginScreen = ({ navigation }) => {
 
-  const { email, password, username, userId } = useSelector(state => state.userReducer)
+  const { email, password } = useSelector(state => state.userReducer)
   const dispatch = useDispatch()
 
-  // const [ email, setEmail ] = useState( null );
-  // const [ password, setPassword ] = useState( null );
-
-  const handleLogin = async() => {
+  const handleLogin = async () => {
    
       await API
-      .post ('/login', {
+      .post ( '/login', {
         email: email,
         password: password
       })
-      .then (res => {
+      .then ( res => {
         console.log(res.data)
-        dispatch(setUsername(res.data.data.username))
-        dispatch(setUserId(res.data.data.id))
+        dispatch ( setUsername(res.data.data.username))
+        dispatch ( setUserId(res.data.data.id))
 
-        if (res.data.status == "200") {
-          navigation.navigate( 'Tabs', { screen: 'Welcome', 
-            //userId: res.data.data.id
-            // params:{ 
-            // screen: 'My profile',
-            // username: res.data.data.username, 
-            // userId: res.data.data.id
-            // }
-          })
+        if ( res.data.status == "200" ) {
+          navigation.navigate( 'Tabs', { screen: 'Welcome'})
         }
       })
       .catch (e => {
-
         // Check if email or password is empty
-        if (e.response.status == "500") {
-          const message = JSON.stringify(e.response.data.message);
-          alert(`${message}`);
+        if ( e.response.status == "500" ) {
+          const message = JSON.stringify ( e.response.data.message );
+          alert ( `${message}` );
         }
 
         // Check if email exist in database
         if (e.response.status == "401") {
-          const message = JSON.stringify(e.response.data.message);
-          alert(`${message}`);
+          const message = JSON.stringify( e.response.data.message );
+          alert ( `${message}` );
         }
-      });
-    //}
-    
+      })
   };
 
   const handleForgetPassword = () => {
-    alert( "A reset password email had been sent to you" )
+    alert ( "A reset password email had been sent to you" )
   }
 
   const handleNewUser = () => {
-    navigation.navigate( 'Sign Up' )
+    navigation.navigate ( 'Sign Up' )
   }
 
   return (
@@ -84,17 +71,17 @@ export const LoginScreen = ({ navigation }) => {
             <View style = { styles.inputContainer }>
               <CustomTextInput
                 placeholder='Email'
-                onChangeText={text => dispatch(setEmail(text))}
-                value={email}
+                onChangeText = { text => dispatch ( setEmail ( text ) ) }
+                value = { email }
                 keyboardType='email-address'
                 autoCapitalize='none'
                 autoCorrect={true}
               />
               <CustomTextInput 
-                placeholder='Password'
-                onChangeText={text => dispatch(setPassword(text))}
-                value={password}
-                secureTextEntry={true}
+                placeholder = 'Password'
+                onChangeText = { text => dispatch ( setPassword ( text ))}
+                value = { password }
+                secureTextEntry = { true }
               />
               <CustomFlatButton 
                 onPress = { handleForgetPassword }

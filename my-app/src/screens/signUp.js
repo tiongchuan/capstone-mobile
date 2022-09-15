@@ -19,9 +19,6 @@ import { setEmail, setPassword, setUserId, setUsername } from '../redux/actions.
 
 export const SignUpScreen = ({ navigation }) => {
   
-  // const [username, setUsername] = useState(null);
-  // const [email, setEmail] = useState(null);
-  // const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState)
@@ -88,63 +85,9 @@ export const SignUpScreen = ({ navigation }) => {
         const message = JSON.stringify( e.response.data.message );
         alert( `${message}` );
       }
-    
     });
-
   };
-
-
-  // const handleSignUp = async () => {
-
-  //   await API
-  //     .post('/register', {
-  //       username: username,
-  //       email: email,
-  //       password: password,
-  //       role: role
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       console.log(res.data.data.id);
-  //       insertStudentId = res.data.data.id
-  //       console.log('setInsertStudentId:',insertStudentId);
-  //     })
-  //     .catch(e => {
-  //       // Check if email or password is empty
-  //       if (e.response.status == "500") {
-  //         const message = JSON.stringify(e.response.data.message);
-  //         alert(`${message}`);
-  //        }
-  //     })
-
-  //   console.log('signup bw API:', userId);
-
-  //   await API
-  //     .put('/protected/student/add', {
-  //       userId: insertStudentId,
-  //       schoolId: 1,
-  //       name: username,
-  //       parent: "OTC",
-  //       remarks: "weak in maths"
-  //     })
-  //     .then(res => {
-  //       console.log(res.data);
-  //       if (res.data.status == "200") {
-  //         console.log("student added successfully");
-  //       }
-  //     })
-  //     .catch(e => {
-  //       console.log(e);
-  //     });
-
-  //   navigation.navigate('Onboarding');
-  //   console.log("sign up successfully");
-  //   dispatch(setUserId(insertStudentId))
-  //   console.log("redux setUserId:",userId);
-  // }
- 
-
-
+  
   return(
     <ScrollView>
       <KeyboardAvoidingView 
@@ -157,7 +100,6 @@ export const SignUpScreen = ({ navigation }) => {
               <CustomTextInput 
                 placeholder = 'Username'
                 value = { username }
-                // onChangeText = { setUsername } 
                 onChangeText = {( value ) => dispatch(setUsername(value)) }
               />
               <CustomTextInput 
@@ -192,10 +134,12 @@ export const SignUpScreen = ({ navigation }) => {
                   switchBorderRadius = { 10 }
                   activeText = { 'User' }
                   inActiveText = { 'Tutor' }
-                  backgroundActive = { 'gray' }
-                  backgroundInactive = { 'gray' }
-                  circleActiveColor = { '#D9D9D9' }
-                  circleInActiveColor = { '#D9D9D9' }
+                  activeTextStyle = {{ color: '#686e73', fontSize: 15 }}
+                  inactiveTextStyle = {{ color: '#686e73', fontSize: 15 }}                 
+                  backgroundActive = { '#d2e8fa' }
+                  backgroundInactive = { '#d2e8fa' }
+                  circleActiveColor = { '#c0d4ed' }
+                  circleInActiveColor = { '#c0d4ed' }
                 />
               </View>
               <CustomButton 

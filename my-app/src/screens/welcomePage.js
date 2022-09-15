@@ -8,29 +8,29 @@ import {
   TouchableOpacity, 
   ActivityIndicator
 } from 'react-native'
-import styles from '../styles/welcomePage.styles'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import API from '../config/api.js'
+import { setGetImage } from '../redux/actions.js'
+import styles from '../styles/welcomePage.styles'
 import { useSelector, useDispatch } from 'react-redux'
-import { setImage, setGetImage } from '../redux/actions.js'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const StarReview = ({ rate }) => {
   let starComponents = [];
-  let fullStar = Math.floor(rate);
-  let noStar = Math.floor(5 - rate);
+  let fullStar = Math.floor( rate );
+  let noStar = Math.floor( 5 - rate );
   let halfStar = 5 - fullStar - noStar;
 
-  for (let i = 0; i < fullStar; i++) {
+  for ( let i = 0; i < fullStar; i++ ) {
     starComponents.push(
-      <MaterialCommunityIcons color= "#5d779c" name="star" key={`full-${i}`} size={20} />
+      <MaterialCommunityIcons color = "#5d779c" name = "star" key = { `full-${i}` } size = {20} />
     )
   }
-  for (let i = 0; i < halfStar; i++) {
+  for ( let i = 0; i < halfStar; i++ ) {
     let decimal = rate - fullStar;
-    if (decimal < 0.25) {
-      starComponents.push(<MaterialCommunityIcons color= "#5d779c" name="star-outline" key={`decimal-${i}`} size={20} />)
-    } else if (decimal > 0.25 && decimal < 0.75) {
-      starComponents.push(<MaterialCommunityIcons  color= "#5d779c"name="star-half-full" key={`decimal-${i}`} size={20} />)
+    if ( decimal < 0.25 ) {
+      starComponents.push( <MaterialCommunityIcons color = "#5d779c" name = "star-outline" key = { `decimal-${i}` } size = { 20 } />)
+    } else if ( decimal > 0.25 && decimal < 0.75 ) {
+      starComponents.push( <MaterialCommunityIcons  color = "#5d779c"name = "star-half-full" key = { `decimal-${ i }` } size = { 20 } />)
     } else {
       starComponents.push(<MaterialCommunityIcons color= "#5d779c" name="star" key={`decimal-${i}`} size={20} />)
     }
@@ -49,11 +49,11 @@ const StarReview = ({ rate }) => {
 
 export const WelcomeScreen = ({ navigation, route }) => {
 
-  const [tutors, setTutors] = useState([])
-  const [query, setQuery] = useState("")
-  const [isLoading, setIsLoading] = useState(true);
+  const [ tutors, setTutors ] = useState([ ])
+  const [ query, setQuery ] = useState( "" )
+  const [ isLoading, setIsLoading ] = useState(true);
 
-  const { username, userId, image, getImage } = useSelector(state => state.userReducer)
+  const { username, userId, getImage } = useSelector( state => state.userReducer )
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -64,13 +64,13 @@ export const WelcomeScreen = ({ navigation, route }) => {
   // get profile image
   const getProfileImage = async () => {
     await API
-      .get(`/general/user/profile_img/${userId}`) 
-      .then(res => {
-        dispatch(setGetImage(res.data.data.profile_img))
-        console.log('GET:', res.data.data.profile_img)
+      .get( `/general/user/profile_img/${userId}` ) 
+      .then( res => {
+        dispatch ( setGetImage ( res.data.data.profile_img ))
+        console.log ( 'GET:', res.data.data.profile_img )
       })
-      .catch(err => {
-        console.log(err)
+      .catch( err => {
+        console.log( err )
       }
     )
   }
@@ -79,8 +79,6 @@ export const WelcomeScreen = ({ navigation, route }) => {
 
     API.get('/general/viewTutor')
       .then(function (response) {
-        
-        // console.log(response.data.data);
         setTutors(response.data.data);
         (setIsLoading(false))
       })
@@ -97,7 +95,6 @@ export const WelcomeScreen = ({ navigation, route }) => {
     return (
       <View style={{ alignItems: "center" }}>
         <Text style={styles.empty}>No Tutor available</Text>
-
       </View>
     );
   };

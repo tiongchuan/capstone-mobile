@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  Image,
-  TouchableOpacity 
-} from 'react-native'
 import API from '../config/api.js';
+import { useSelector } from 'react-redux'
+import { View, Text, Image } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import styles from '../styles/tutorProfile.styles.js'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useSelector, useDispatch } from 'react-redux'
-import { setImage } from '../redux/actions.js'
 
-export const ProfileAccountScreen = ({ navigation }) => {
+export const ProfileAccountScreen = () => {
 
-  const [student, setStudent] = useState([])
+  const [ student, setStudent ] = useState([ ])
 
-  const { userId, image, getImage } = useSelector(state => state.userReducer)
-  const dispatch = useDispatch()
+  const { userId, getImage } = useSelector( state => state.userReducer )
 
-  console.log('Get:', getImage)
-  console.log(userId)
+  console.log( 'Get:', getImage  )
+  console.log( userId )
 
   useEffect(() => {
-    getStudentProfile()
-  
-    return () => {
-      
-    }
+    getStudentProfile ()
   }, [])
 
   // get student profile
@@ -37,8 +26,8 @@ export const ProfileAccountScreen = ({ navigation }) => {
         console.log('Res:', res.data)
         setStudent(res.data.data[0]) 
       })
-      .catch(err => {
-        console.log(err)
+      .catch( err => {
+        console.log( err )
       })
   }
 

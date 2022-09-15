@@ -99,7 +99,7 @@ export const RequestTutorScreen = ({ navigation, route }) => {
     <ScrollView>
       <KeyboardAvoidingView
         style = { styles.container }
-        behavior= { Platform.OS === "ios" ? "padding" : "height" }>
+        behavior= { Platform.OS === "ios" ? "padding" : "null" }>
         <TouchableWithoutFeedback onPress = { Keyboard.dismiss }>
           <View style = { styles.innerContainer }>
             <View style = { styles.calendarContainer}>

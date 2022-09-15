@@ -34,13 +34,6 @@ export const setUserId = userId => dispatch => {
   });
 }
 
-export const setTutorId = tutorId => dispatch => {
-  dispatch({
-    type: SET_TUTOR_ID,
-    payload: tutorId,
-  });
-}
-
 export const setImage = image => dispatch => {
   dispatch({
     type: SET_IMAGE,
