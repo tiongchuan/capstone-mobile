@@ -3,7 +3,6 @@ import {
   SET_PASSWORD, 
   SET_USERNAME, 
   SET_USER_ID, 
-  SET_TUTOR_ID,
   SET_IMAGE,
   GET_IMAGE
 } from "./actions";
@@ -13,7 +12,6 @@ const initialState = {
   password: "",
   username: "",
   userId: "",
-  tutorId: "",
   image: "",
   getImage: "",
   studentName: ""
@@ -40,11 +38,6 @@ export default function userReducer (state = initialState, action) {
       return {
         ...state,
         userId: action.payload,
-      };
-    case SET_TUTOR_ID:
-      return {
-        ...state,
-        tutorId: action.payload,
       };
     case SET_IMAGE:
       return {

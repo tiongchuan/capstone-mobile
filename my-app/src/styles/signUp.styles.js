@@ -13,14 +13,14 @@ module.exports = StyleSheet.create ({
     height: height,
   },
   img: {
-    height: height / 3,
-    width: width * 0.85,
+    height: height / 3.1,
+    width: width * 0.77,
     resizeMode: 'contain',
-    top: height * 0.05,
+    top: height * 0.09,
   },
   inputContainer: {
     alignItems: 'center',
-    top: height * 0.08,
+    top: height * 0.15,
   },
   toggle: {
     margin: 20,
@@ -31,6 +31,6 @@ module.exports = StyleSheet.create ({
   toggleText: {
     fontSize: 16,
     marginRight: 25,
-    color: 'gray',
+    color: '#767c82',
   }, 
 })

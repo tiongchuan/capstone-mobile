@@ -11,7 +11,7 @@ import {
 import styles from '../styles/myActivity.styles';
 import API from '../config/api';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector, useDispatch } from 'react-redux';;
+import { useSelector } from 'react-redux';;
 
 export const MyActivityScreen = ({ navigation, route }) => {
 
@@ -30,7 +30,7 @@ export const MyActivityScreen = ({ navigation, route }) => {
 
   function listBookings() {
 
-    API.get('/general/viewEnrollment/' + userId)
+    API.get(`/general/viewEnrollment/${userId}`)
       .then(function (response) {
         console.log(response.data.data);
         setBookings(response.data.data);
@@ -123,6 +123,3 @@ export const MyActivityScreen = ({ navigation, route }) => {
     </SafeAreaView>
   )
 }
-
-
-

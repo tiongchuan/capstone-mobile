@@ -34,6 +34,6 @@ module.exports = StyleSheet.create ({
   },
   btn: {
     alignItems: 'center',
-    marginVertical: height * 0.08
+    marginVertical: height * 0.03
   }
 })

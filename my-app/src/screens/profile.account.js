@@ -1,45 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  Image,
-  TouchableOpacity 
-} from 'react-native'
 import API from '../config/api.js';
+import { useSelector } from 'react-redux'
+import { View, Text, Image } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import styles from '../styles/tutorProfile.styles.js'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useSelector, useDispatch } from 'react-redux'
-import { setImage } from '../redux/actions.js'
 
-export const ProfileAccountScreen = ({ navigation }) => {
+export const ProfileAccountScreen = () => {
 
-  const [student, setStudent] = useState([])
+  const [ student, setStudent ] = useState([ ])
 
-  const { userId, image, getImage } = useSelector(state => state.userReducer)
-  const dispatch = useDispatch()
+  const { userId, getImage } = useSelector( state => state.userReducer )
 
-  console.log('Get:', getImage)
-  console.log(userId)
+  console.log( 'Get:', getImage  )
+  console.log( userId )
 
   useEffect(() => {
-    getStudentProfile()
-  
-    return () => {
-      
-    }
+    getStudentProfile ()
   }, [])
 
   // get student profile
   const getStudentProfile = async () => {
     await API
-      .get(`/general/viewStudent/${userId}`) 
-      .then(res => {
-        console.log('Res:', res.data)
-        console.log(res.data.data.studentName)
-        setStudent(res.data.data) 
+      .get( `/general/viewStudent/${userId}` ) 
+      .then( res => {
+        console.log ( 'Res:', res.data )
+        setStudent ( res.data.data[0]) 
       })
-      .catch(err => {
-        console.log(err)
+      .catch( err => {
+        console.log( err )
       })
   }
 
@@ -66,6 +54,10 @@ export const ProfileAccountScreen = ({ navigation }) => {
           <Text style = { styles.text }>{ student.studentName }</Text>
         </View>
         <View style = { styles.text1}>
+          <Text style = { styles.text }>Email</Text>
+          <Text style = { styles.text }>{ student.email }</Text>
+        </View>
+        <View style = { styles.text1}>
           <Text style = { styles.text }>Parent</Text>
           <Text style = { styles.text }>{ student.parent }</Text>
         </View>
@@ -73,17 +65,6 @@ export const ProfileAccountScreen = ({ navigation }) => {
           <Text style = { styles.text }>Remarks</Text>
           <Text style = { styles.text }>{ student.remarks }</Text>
         </View>
-        <TouchableOpacity 
-          onPress = {() => navigation.navigate( 'Tabs', { screen: 'My profile' } )}>
-          <View style = { styles.text1 }>
-            <Text style = { styles.text }>Back</Text>
-            <MaterialCommunityIcons 
-              size = {29} 
-              name = "chevron-right" 
-              color = "#D9D9D9" 
-            />
-          </View>
-        </TouchableOpacity>
       </View>
     </View>
   )
